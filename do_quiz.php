@@ -1,8 +1,4 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $variable = $_POST['optradio'];
-    echo $variable;
-}
 $student = new Student();
 $student = $_SESSION['Student'];
 $object = new DataBase();
@@ -17,8 +13,8 @@ require 'DataBase.php';
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/stylesheet.css">
-        <script src="countdown.js"></script>
+        <link rel="stylesheet" href="/css/do_quiz_css/do_quiz_stylesheet.css">
+        <script src="js/quiz_timer/countdown.js"></script>
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <!---<script src="ajax_file.js"></script>--->
@@ -36,15 +32,15 @@ require 'DataBase.php';
                 <?php
                 echo '<script type="text/javascript">' . $quiz->duration . '</script>';
                 ?>
-                <script src="do_quiz_timer.js?"type="text/javascript"></script>      
+                <script src="js/do_quiz_js/do_quiz_timer.js?"type="text/javascript"></script>      
             </div>
             <!-------------------------------->
-            <pre>
+            
             <h5>Quiz Description:</h5> 
                 <?php
                 echo $quiz->description;
                 ?>
-            </pre>
+            
             <br>
             <!---------- Quiz Form ------->
             <form action=""method="POST" id="quiz-form">
@@ -105,9 +101,10 @@ require 'DataBase.php';
                             <textarea class="form-control" id="exampleInput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->input . '</textarea>
                                 <label for="exampleOutput">Example Output:</label>
                             <textarea class="form-control" id="exampleOutput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->output . '</textarea>';
-                            if ($testCasesCount > 1)
-                                echo '<hr>';
+                            if ($testCasesCount > 1) {
+                            echo '<hr>';
                         }
+                    }
                         echo '</div>';
                         // -------------------------------------
                         //Answering problem text area
