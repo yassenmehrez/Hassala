@@ -62,7 +62,7 @@ class Student extends ApplicationUser{
         * 
         **************/
        
-       $QuestionsQ = "SELECT * FROM `Question` WHERE `quiz_id` = $quiz_id;";
+       $QuestionsQ = "SELECT * FROM `Question` WHERE `quiz_id` = $quiz_id ORDER BY RAND();";
        $QuesArr = $this->DB->database_all_assoc(
                $this->DB->database_query($QuestionsQ));
        for ( $i = 0; $i < count($QuesArr); $i++)
@@ -94,7 +94,7 @@ class Student extends ApplicationUser{
         * Select Problems for this quiz
         *
         ***********/
-       $ProblemQ = "SELECT * FROM `quiz_problem` WHERE `quiz_problem_id` = $quiz_id;";
+       $ProblemQ = "SELECT * FROM `quiz_problem` WHERE `quiz_problem_id` = $quiz_id ORDER BY RAND();";
        $ProblemArr = $this->DB->database_all_assoc(
                $this->DB->database_query($ProblemQ));
        

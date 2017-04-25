@@ -3,9 +3,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $variable = $_POST['optradio'];
     echo $variable;
 }
+$student = new Student();
+$student = $_SESSION['Student'];
 $object = new DataBase();
-$quiz = new Quiz();
-$quiz = $object->TakeQuiz("");
 ?>
 <?php
 require 'DataBase.php';
@@ -46,43 +46,92 @@ require 'DataBase.php';
                 ?>
             </pre>
             <br>
-            <!---------- Question Form ------->
-            <form action=""method="POST" id="question-form">
+            <!---------- Quiz Form ------->
+            <form action=""method="POST" id="quiz-form">
+                <!---------Filling QUIZ questions---->
+                <?php
+                $QUIZ = new Quiz();
+                $QUIZ = $student->TakeQuiz($CourseName);
+                //defines the question number in quesitons array
+                $question_number = 1;
+                //total number of questions in the array
+                $number_of_questions = count($QUIZ->questions);
+                //defines the problem number in problems array
+                $problem_number = 1;
+                //total number of problem in the array
+                $number_of_problems = count($QUIZ->problems);
+                //questions tracker to tell student which question is he solving ATM
+                $question_tracker =1;
+                //total numbers of questions ( questions + problems )
+                $total_number_of_questions = $number_of_problems + $number_of_questions;
+                
+                ?>
+                <?php
+                ?>
                 <div id="design-indent">
-                    <h5>Question #</h5>
-                    <!----- Question Header -->
-                    <p>
-                        <?php 
-                        ?>
-                    </p>
+                    <?php
+                    if ($question_number < $number_of_questions) {
+
+                        //echo '<h5>Question #' . $question_number . '<h5><br>';
+                        //echo '<p>' . $QUIZ->questions[$question_number]->$question_content . '</p>';
+                        //<!----- Question Header & Grade-->
+                        echo '<div class = "row">
+                        <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5><br><p>' . $QUIZ->questions[$question_number]->question_content . '</p></div>
+                        <div class = "col-sm-4">' . $QUIZ->questions[$question_number]->question_grade . '</div>
+                        </div ><br>';
+                        $answers_count = count($QUIZ->questions[$question_number]->$answers);
+                        echo '<div class="input-group">';
+                        for ($i = 0; $i < $answers_count; $i++) {
+                            echo '<label class="radio-inline">
+                            <input type="radio" name="optradio" value="{$i+1}">' . $QUIZ->questions[$question_number]->answers[$i] . '
+                        </label><br>
+                        ';
+                        }
+
+                        echo '</div>';
+                    } else {
+                        //Problem Info
+                        echo '<div class = "row">
+                        <div class = "col-sm-8"><h5>Problem #' . $problem_number . '<h5><br><p>' . $QUIZ->problems[$problem_number]->Description . '</p></div>
+                        <div class = "col-sm-4">' . $QUIZ->problems[$problem_number]->grade . '</div>
+                        </div ><br>';
+                        //-------------------------------------
+                        //Input & Output format content 
+                        echo '<div class="form-group>"';
+                        echo '<label for="input-format">Input format:</label>';
+                        echo '<p id="input-format">' . $QUIZ->problems[$problem_number]->input_format . '</p>';
+                        echo '<label for="output-format">Output format:</label>';
+                        echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
+                        // Input & Output Examples
+                        $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
+                        for ($j = 0; $j < testCasesCount; $i++) {
+                            echo '<label for="exampleTextarea">Example Input</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->input . '</textarea>
+                                <label for="exampleTextarea">Example Output</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->output . '</textarea>';
+                            if ($testCasesCount > 1)
+                                echo '<hr>';
+                        }
+                        echo '</div>';
+                        // -------------------------------------
+                        //Answering problem text area
+                        echo ' <label for="exampleTextarea">Please copy your code into the following textarea</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
+                    }
+                    ?>
                     <!------------------------>
-                    <div class="input-group">
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" value="A">Andrew
-                        </label><br>
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" value="B">Option2
-                        </label><br>
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" value="C">Option3
-                        </label><br>
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" value="D">Option2
-                        </label><br>
-                        <label class="radio-inline">
-                            <input type="radio" name="optradio" value="C">Option3
-                        </label>
-                    </div>
                     <br>
 
                     <button type="button" class="next btn btn-primary">Previous</button>
                     <button type="button" class="previous btn btn-primary">Next</button><br>
                     <!---Questions Information --->
-                    <code>Question</code>
-                    <?php
+                    <code>Question </code>
+                    <?php 
+                    echo '<code>'.$question_tracker.' </code>';
                     ?>
-                    <code>Of</code>
+                    <code>Of </code>
                     <?php
+                    echo '<code>'.$total_number_of_questions.'</code>'
                     ?>
                     <br>
                     <code>Total Attempts:</code><br>

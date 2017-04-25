@@ -16,10 +16,10 @@ class Course {
     public $name;
     public $description;
     public $quizes = array();
-    public $matrials = array();
+    public $materials = array();
     
     public function __construct() {
         $this->quizes = array();
-        $this->matrials = array();
+        $this->materials = array();
     }
 }
