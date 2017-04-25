@@ -61,19 +61,15 @@ require 'DataBase.php';
                 //total number of problem in the array
                 $number_of_problems = count($QUIZ->problems);
                 //questions tracker to tell student which question is he solving ATM
-                $question_tracker =1;
+                $question_tracker = 1;
                 //total numbers of questions ( questions + problems )
                 $total_number_of_questions = $number_of_problems + $number_of_questions;
-                
                 ?>
                 <?php
                 ?>
                 <div id="design-indent">
                     <?php
                     if ($question_number < $number_of_questions) {
-
-                        //echo '<h5>Question #' . $question_number . '<h5><br>';
-                        //echo '<p>' . $QUIZ->questions[$question_number]->$question_content . '</p>';
                         //<!----- Question Header & Grade-->
                         echo '<div class = "row">
                         <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5><br><p>' . $QUIZ->questions[$question_number]->question_content . '</p></div>
@@ -83,9 +79,9 @@ require 'DataBase.php';
                         echo '<div class="input-group">';
                         for ($i = 0; $i < $answers_count; $i++) {
                             echo '<label class="radio-inline">
-                            <input type="radio" name="optradio" value="{$i+1}">' . $QUIZ->questions[$question_number]->answers[$i] . '
-                        </label><br>
-                        ';
+                            <input type="radio" name="optradio" value="{$i+1}">';
+                            echo $QUIZ->questions[$question_number]->answers[$i];
+                            echo '</label><br>';
                         }
 
                         echo '</div>';
@@ -104,34 +100,42 @@ require 'DataBase.php';
                         echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
                         // Input & Output Examples
                         $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
-                        for ($j = 0; $j < testCasesCount; $i++) {
-                            echo '<label for="exampleTextarea">Example Input</label>
-                            <textarea class="form-control" id="exampleTextarea" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->input . '</textarea>
-                                <label for="exampleTextarea">Example Output</label>
-                            <textarea class="form-control" id="exampleTextarea" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->output . '</textarea>';
+                        for ($x = 0; $x < testCasesCount; $x++) {
+                            echo '<label for="exampleInput">Example Input:</label>
+                            <textarea class="form-control" id="exampleInput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->input . '</textarea>
+                                <label for="exampleOutput">Example Output:</label>
+                            <textarea class="form-control" id="exampleOutput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->output . '</textarea>';
                             if ($testCasesCount > 1)
                                 echo '<hr>';
                         }
                         echo '</div>';
                         // -------------------------------------
                         //Answering problem text area
-                        echo ' <label for="exampleTextarea">Please copy your code into the following textarea</label>
+                        echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
                                 <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
                     }
                     ?>
                     <!------------------------>
                     <br>
-
-                    <button type="button" class="next btn btn-primary">Previous</button>
-                    <button type="button" class="previous btn btn-primary">Next</button><br>
+                    <!------NEXT & PREVIOUS Buttons --->
+                    <?php
+                    if ($question_tracker <= 1) {
+                        echo '<button disabled="disabled" type="button" class="next btn btn-primary">Previous</button> ';
+                        echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
+                    } elseif ($question_tracker > 1) {
+                        echo '<button type="button" class="next btn btn-primary">Previous</button> ';
+                        echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
+                    }
+                    ?>
+                    <!------------------------->
                     <!---Questions Information --->
                     <code>Question </code>
-                    <?php 
-                    echo '<code>'.$question_tracker.' </code>';
+                    <?php
+                    echo '<code>' . $question_tracker . ' </code>';
                     ?>
                     <code>Of </code>
                     <?php
-                    echo '<code>'.$total_number_of_questions.'</code>'
+                    echo '<code>' . $total_number_of_questions . '</code>'
                     ?>
                     <br>
                     <code>Total Attempts:</code><br>
