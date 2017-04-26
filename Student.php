@@ -86,9 +86,9 @@ class Student extends ApplicationUser{
                $ans = new Answer();
                $ans ->answer = $AnsArr[0]["answer"];
                $ans ->count = $AnsArr[0]["chosen_count"];
-               $qst->answers[]=($ans);
+               $qst->answers[$k]=$ans;
            }
-           $Quiz->questions[] = $qst;
+           $Quiz->questions[$i] = $qst;
        }
        /***********
         *

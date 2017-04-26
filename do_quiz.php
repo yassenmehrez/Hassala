@@ -5,6 +5,8 @@ include_once 'Student.php';
 
 include_once 'Quiz.php';
 include_once 'Question.php';
+include_once 'Answer.php';
+include_once 'TestCase.php';
 include_once 'Problem_Quiz.php';
 include_once 'DataBase.php';
 
@@ -13,6 +15,7 @@ $object = new DataBase();
 $QUIZ = new Quiz();
 $CourseName = "Programming";
 $QUIZ = $student->TakeQuiz($CourseName);
+print_r($QUIZ->questions->answers);
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,6 +38,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
         <div class="container">
             <h1>EXAMINATION FORM <small>powered by Hassala FCI | All rights reserved</small></h1>
             <hr>
+            <h4><center><?php echo $QUIZ->title;?></center></h4>
             <h5>Quiz Description:</h5> 
             <?php
             echo '<p>'.$QUIZ->description.'</p>';
@@ -73,15 +77,15 @@ $QUIZ = $student->TakeQuiz($CourseName);
                         <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5><br><p>' . $QUIZ->questions[$question_number]->question_content . '</p></div>
                         <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->questions[$question_number]->question_grade . ' Marks</h5></div>
                         </div ><br>';
-                        $answers_count = count($QUIZ->questions[$question_number]->$answers);
+                        $answers_count = count($QUIZ->questions[$question_number]->answers);
                         echo '<div class="input-group">';
                         for ($i = 0; $i < $answers_count; $i++) {
                             echo '<label class="radio-inline">
-                            <input type="radio" name="optradio" value="{$i+1}">';
-                            echo $QUIZ->questions[$question_number]->answers[$i];
-                            echo '</label><br>';
+                            <input type="radio" name="optradio" value="">';
+                                if ( $QUIZ->questions[$question_number]->answers[$i]->answer != null)
+				echo $QUIZ->questions[$question_number]->answers[$i]->answer;
+                        echo '</label><br>';
                         }
-
                         echo '</div>';
                     } else {
                         //Problem Info
@@ -120,11 +124,10 @@ $QUIZ = $student->TakeQuiz($CourseName);
                     <?php
                     if ($question_tracker <= 1) {
                         echo '<button disabled="disabled" type="button" class="next btn btn-primary">Previous</button> ';
-                        echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
                     } elseif ($question_tracker > 1) {
                         echo '<button type="button" class="next btn btn-primary">Previous</button> ';
-                        echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
                     }
+                        echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
                     ?>
                     <!------------------------->
                     <!---Questions Information --->
