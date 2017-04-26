@@ -47,11 +47,11 @@ class Instructor extends ApplicationUser {
         
     }
     
-    public function EditeQuiz(){
+    public function EditQuiz(){
         
     }
     
-    public function EditeCourse(){
+    public function EditCourse(){
         
     }
 }

@@ -131,7 +131,7 @@ class Student extends ApplicationUser{
        
    }
    
-   public function DownloadMatrial($param) {
+   public function DownloadMaterial($param) {
         
     }
     

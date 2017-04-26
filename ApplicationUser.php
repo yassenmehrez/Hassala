@@ -24,7 +24,7 @@ class ApplicationUser extends Person{
         $this->last_name= $last_name;    
     }
     
-    public function EditeProfile($email, $first_name, $last_name) {
+    public function EditProfile($email, $first_name, $last_name) {
         $this->SignUp($email, $first_name, $last_name);   
     }
     
