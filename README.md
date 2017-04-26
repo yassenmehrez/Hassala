@@ -10,5 +10,6 @@ source in order to achieve the target of having the most reliable, safe, usable
 and capable web application for the satisfaction of our users.
 # API Reference
 1.**Countdown-timer API**
+2.**Google Charts API**
 # Database Scheme
 ![alt text](http://imgur.com/JZScQGM.png)
