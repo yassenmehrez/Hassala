@@ -13,7 +13,6 @@
  */
 class Quiz {
     public $id;
-    public $name;
     public $title;
     public $duration;
     public $date;
