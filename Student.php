@@ -95,34 +95,33 @@ class Student extends ApplicationUser{
         * Select Problems for this quiz
         *
         ***********/
-       $ProblemQ = "SELECT * FROM `quiz_problem` WHERE `quiz_problem_id` = $quiz_id ORDER BY RAND();";
+       $ProblemQ = "SELECT * FROM `quiz_problem` WHERE `quiz_id` = $quiz_id ORDER BY RAND();";
        $ProblemArr = $this->DB->database_all_assoc(
                $this->DB->database_query($ProblemQ));
-       
        for ( $j = 0; $j < count($ProblemArr); $j++)
        {
-           $prblm = new Problem_Quiz();
-           $PrblmID = $QuesArr[0]["problem_id"];
-           $prblm->Description= $ProblemArr[0]["description"];
-           $prblm->input_format = $ProblemArr[0]["inputformat"];
-           $prblm->output_format= $ProblemArr[0]["outputformat"];
-           $prblm->grade = $ProblemArr[0]["problem_grade"];
+           $problem = new Problem_Quiz();
+           $PrblmID = $ProblemArr[0]["problem_id"];
+           $problem->problem_id = $PrblmID;
+           $problem->Description= $ProblemArr[0]["description"];
+           $problem->input_format = $ProblemArr[0]["inputformat"];
+           $problem->output_format= $ProblemArr[0]["outputformat"];
+           $problem->grade = $ProblemArr[0]["problem_grade"];
            /*
             * 
             * Select Test Cases for this problem
             * 
             */
-           $TestCaseQu = " SELECT * FROM `TestCase` WHERE `problem_quiz_id` = $PrblmID;";
-           $TestCaseArr = $this->DB->database_all_assoc(
-               $this->DB->database_query($TestCaseQu));
+           $TestCaseQuery = "SELECT * FROM `TestCase` WHERE `problem_id` = $PrblmID;";
+           $TestCaseArr = $this->DB->database_all_assoc($this->DB->database_query($TestCaseQuery));
            for ($l = 0; $l < count($TestCaseArr); $l++)
            {
-               $Tst = new TestCase();
-               $Tst->input = $TestCaseArr[0]["input"];
-               $Tst->output = $TestCaseArr[0]["output"];
-               $prblm->test_case[] = $Tst;
+               $Test_Case = new TestCase();
+               $Test_Case->input = $TestCaseArr[0]["input"];
+               $Test_Case->output = $TestCaseArr[0]["output"];
+               $problem->test_case[] = $Test_Case;
            }
-           $Quiz->problems[] = $prblm;
+           $Quiz->problems[] = $problem;
        }
        //Object finally filled
        return $Quiz;
