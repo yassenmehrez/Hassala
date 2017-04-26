@@ -23,7 +23,7 @@ and open the template in the editor.Contest
             google.charts.setOnLoadCallback(drawChart);
 
             function drawChart() {
-                var data = google.visualization.arrayToDataTable('<?php echo $result; ?>');
+                var data = google.visualization.arrayToDataTable(<?php echo $result; ?>);
 
 
                 var options = {
