@@ -53,7 +53,7 @@ class Student extends ApplicationUser{
        $Quiz->title = $QuzArr[0]["title"];
        $Quiz->date = $QuzArr[0]["quiz_date"];
        $Quiz->time = $QuzArr[0]["quiz_time"];
-       $Quiz->duration = $QuzArr[0]["quiz_duration"];
+       $Quiz->duration = explode(":", $QuzArr[0]["quiz_duration"]);
        $Quiz->description = $QuzArr[0]["description"];
        $Quiz->full_grade = $QuzArr[0]["quiz_full_mark"];
        /************
@@ -69,6 +69,7 @@ class Student extends ApplicationUser{
        {
            $qst = new Question();
            $QusID = $QuesArr[0]["question_id"];
+           $qst->question_id = $QusID;
            $qst->question_content = $QuesArr[0]["question_header"];
            $qst->correct_answer = $QuesArr[0]["question_model_answer"];
            $qst->question_grade = $QuesArr[0]["question_grade"];

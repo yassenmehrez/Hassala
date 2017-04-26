@@ -1,10 +1,18 @@
 <?php
+include_once 'Person.php';
+include_once 'ApplcationUser.php';
+include_once 'Student.php';
+
+include_once 'Quiz.php';
+include_once 'Question.php';
+include_once 'Problem_Quiz.php';
+include_once 'DataBase.php';
+
 $student = new Student();
-$student = $_SESSION['Student'];
 $object = new DataBase();
-?>
-<?php
-require 'DataBase.php';
+$QUIZ = new Quiz();
+$CourseName = "Programming";
+$QUIZ = $student->TakeQuiz($CourseName);
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +22,7 @@ require 'DataBase.php';
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/do_quiz_css/do_quiz_stylesheet.css">
-        <script src="js/quiz_timer/countdown.js"></script>
+        <script src="js/do_quiz_js/countdown.js"></script>
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <!---<script src="ajax_file.js"></script>--->
@@ -25,29 +33,25 @@ require 'DataBase.php';
     <body>
         <!--  Content Area-->
         <div class="container">
-            <h1>EXAMINATION FORM <small>powered by Hassala FCI | All rights not reserved</small></h1>
+            <h1>EXAMINATION FORM <small>powered by Hassala FCI | All rights reserved</small></h1>
             <hr>
-            <!--------- Countdown Timer ----->
+            <h5>Quiz Description:</h5> 
+            <?php
+            echo '<p>'.$QUIZ->description.'</p>';
+            ?>
+            <br>
+             <!--------- Countdown Timer ----->
             <div id='timer'>
                 <?php
-                echo '<script type="text/javascript">' . $quiz->duration . '</script>';
+                echo '<script type="text/javascript">timer=' . $QUIZ->duration[1]*60 . '</script>';
                 ?>
-                <script src="js/do_quiz_js/do_quiz_timer.js?"type="text/javascript"></script>      
+                <script src="js/do_quiz_js/do_quiz_timer.js?" type="text/javascript"></script>      
             </div>
             <!-------------------------------->
-            
-            <h5>Quiz Description:</h5> 
-                <?php
-                echo $quiz->description;
-                ?>
-            
-            <br>
             <!---------- Quiz Form ------->
             <form action=""method="POST" id="quiz-form">
                 <!---------Filling QUIZ questions---->
                 <?php
-                $QUIZ = new Quiz();
-                $QUIZ = $student->TakeQuiz($CourseName);
                 //defines the question number in quesitons array
                 $question_number = 1;
                 //total number of questions in the array
@@ -61,15 +65,13 @@ require 'DataBase.php';
                 //total numbers of questions ( questions + problems )
                 $total_number_of_questions = $number_of_problems + $number_of_questions;
                 ?>
-                <?php
-                ?>
                 <div id="design-indent">
                     <?php
                     if ($question_number < $number_of_questions) {
                         //<!----- Question Header & Grade-->
                         echo '<div class = "row">
                         <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5><br><p>' . $QUIZ->questions[$question_number]->question_content . '</p></div>
-                        <div class = "col-sm-4">' . $QUIZ->questions[$question_number]->question_grade . '</div>
+                        <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->questions[$question_number]->question_grade . ' Marks</h5></div>
                         </div ><br>';
                         $answers_count = count($QUIZ->questions[$question_number]->$answers);
                         echo '<div class="input-group">';
@@ -85,8 +87,8 @@ require 'DataBase.php';
                         //Problem Info
                         echo '<div class = "row">
                         <div class = "col-sm-8"><h5>Problem #' . $problem_number . '<h5><br><p>' . $QUIZ->problems[$problem_number]->Description . '</p></div>
-                        <div class = "col-sm-4">' . $QUIZ->problems[$problem_number]->grade . '</div>
-                        </div ><br>';
+                        <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->problems[$problem_number]->grade . ' Marks</h5></div>
+                        </div><br>';
                         //-------------------------------------
                         //Input & Output format content 
                         echo '<div class="form-group>"';
@@ -96,15 +98,15 @@ require 'DataBase.php';
                         echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
                         // Input & Output Examples
                         $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
-                        for ($x = 0; $x < testCasesCount; $x++) {
+                        for ($x = 0; $x < $testCasesCount; $x++) {
                             echo '<label for="exampleInput">Example Input:</label>
                             <textarea class="form-control" id="exampleInput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->input . '</textarea>
                                 <label for="exampleOutput">Example Output:</label>
                             <textarea class="form-control" id="exampleOutput" rows="5" style="resize:none;" disabled>' . $QUIZ->problems[$problem_number]->test_case[$j]->output . '</textarea>';
                             if ($testCasesCount > 1) {
-                            echo '<hr>';
+                                echo '<hr>';
+                            }
                         }
-                    }
                         echo '</div>';
                         // -------------------------------------
                         //Answering problem text area
@@ -112,7 +114,7 @@ require 'DataBase.php';
                                 <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
                     }
                     ?>
-                    <!------------------------>
+                    <!--------------------------------->
                     <br>
                     <!------NEXT & PREVIOUS Buttons --->
                     <?php

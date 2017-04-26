@@ -12,6 +12,7 @@
  * @author root
  */
 class Question {
+    public $question_id;
     public $correct_answer;
     public $answers = array();
     public $question_content;

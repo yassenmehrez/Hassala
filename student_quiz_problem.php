@@ -7,17 +7,13 @@
  */
 
 /**
- * Description of Problem_Quiz
+ * Description of student_quiz_problem
  *
- * @author root
+ * @author andrewnagyeb
  */
-class Problem_Quiz {
+class student_quiz_problem {
     //put your code here
+    public $student_id;
     public $problem_id;
-    public $Description;
-    public $input_format;
-    public $output_format;
-    public $grade;
-    public $test_case = array();
-    
+    public $problem_status;
 }
