@@ -27,7 +27,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
         <script src="js/do_quiz_js/countdown.js"></script>
         <script src="js/do_quiz_js/on_active.js"></script>
         <script src="libraries/jquery 1.12.1.min.js"></script>
-        
+
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <!---<script src="ajax_file.js"></script>--->
@@ -65,7 +65,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
                 <?php
                 echo '<script type="text/javascript">timer=' . $QUIZ->duration[1] * 60 . '</script>';
                 ?>
-                <script src="js/do_quiz_js/do_quiz_timer.js?" type="text/javascript"></script>      
+                <script src="js/do_quiz_js/do_quiz_timer.js" type="text/javascript"></script>      
             </div>
             <!-------------------------------->
             <!---------- Quiz Form ------->
@@ -73,7 +73,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
                 <!---------Filling QUIZ questions---->
                 <?php
                 //defines the question number in quesitons array
-                $question_number = 1;
+                $question_number = 0;
                 //total number of questions in the array
                 $number_of_questions = count($QUIZ->questions);
                 //defines the problem number in problems array
@@ -91,106 +91,128 @@ $QUIZ = $student->TakeQuiz($CourseName);
                     <div id="question-form">
                         <?php
                         if ($question_number < $number_of_questions) {
-                            //<!----- Question Header & Grade-->
-                            echo '<div class = "row">
-                        <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5>'
-                            . '<pre>' . $QUIZ->questions[$question_number]->question_content . '</pre></div>
-                        <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->questions[$question_number]->question_grade . ' Marks</h5></div>
-                        </div><br>';
+                            //<!----- Question Header & Grade-->                           
+                            ?>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h5>Question #<?php echo $question_number + 1; ?></h5>
+                                    <h5><pre><?php echo $QUIZ->questions[$question_number]->question_content; ?></pre></h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h5>Grade : <?php echo $QUIZ->questions[$question_number]->question_grade; ?> Marks</h5>
+                                </div>
+                            </div>
+                            <?php
                             $answers_count = count($QUIZ->questions[$question_number]->answers);
-                            echo '<div class="input-group">';
-                            for ($i = 0; $i < $answers_count; $i++) {
-                                echo '<label class="radio-inline">
-                            <input type="radio" id="choose" name="optradio" value="' . $QUIZ->questions[$question_number]->answers[$i]->answer . '">';
-                                if ($QUIZ->questions[$question_number]->answers[$i]->answer != null) {
-                                    echo $QUIZ->questions[$question_number]->answers[$i]->answer;
+                            ?> 
+                            <!--- Beginning of input radio buttons--->
+                            <div class="input-group">
+                                <?php
+                                for ($i = 0; $i < $answers_count; $i++) {
+                                    echo '<label class="radio-inline">
+                            <input type="radio" id="choose" name="optradio" value="' .
+                                    $QUIZ->questions[$question_number]->answers[$i]->answer . '">';
+                                    if ($QUIZ->questions[$question_number]->answers[$i]->answer != null) {
+                                        echo $QUIZ->questions[$question_number]->answers[$i]->answer;
+                                    }
+                                    echo '</label><br>';
                                 }
-                                echo '</label><br>';
-                            }
-                            echo '</div>';
-                        } else {
-                            //Problem Info
-                            echo '<div class = "row">
-                        <div class = "col-sm-8"><h5>Problem #' . $problem_number . '<h5><br><pre>' . $QUIZ->problems[$problem_number]->Description . '</pre></div>
-                        <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->problems[$problem_number]->grade . ' Marks</h5></div>
-                        </div><br>';
-                            //-------------------------------------
-                            //Input & Output format content 
-                            echo '<div class="form-group">';
-                            echo '<label for="input-format">Input format:</label>';
-                            echo '<p id="input-format">' . $QUIZ->problems[$problem_number]->input_format . '</p>';
-                            echo '<label for="output-format">Output format:</label>';
-                            echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
+                                echo '</div>';
+                            } else {
+                                //Problem Info
+                                ?> 
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h5>Problem #<?php echo $problem_number;?></h5>
+                                        <pre>
+                                            <?php echo $QUIZ->problems[$problem_number]->Description;?>
+                                        </pre>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade;?> Marks</h5>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-format">Input format:</label>'
+                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->input_format?></p>
+                                    <label for="input-format">Output format:</label>'
+                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->output_format?></p>
+                                </div>
+                                
+                                <?php
                             // Input & Output Examples
-                            $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
-                            for ($x = 0; $x < $testCasesCount; $x++) {
-                                echo '<label for="exampleInput">Example Input:</label>
+                                $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
+                                for ($x = 0; $x < $testCasesCount; $x++) {
+                                    echo '<label for="exampleInput">Example Input:</label>
                             <pre id="exampleInput">' . $QUIZ->problems[$problem_number]->test_case[$x]->input . '</pre>
                                 <label for="exampleOutput">Example Output:</label>
                             <pre id="exampleOutput">' . $QUIZ->problems[$problem_number]->test_case[$x]->output . '</pre>';
-                                if ($testCasesCount > 1) {
-                                    echo '<hr>';
+                                    if ($testCasesCount > 1) {
+                                        echo '<hr>';
+                                    }
                                 }
-                            }
-                            echo '</div>';
-                            // -------------------------------------
-                            //Answering problem text area
-                            echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
+                                echo '</div>';
+                                // -------------------------------------
+                                //Answering problem text area
+                                echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
                                 <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
-                        }
+                            }
+                            ?>
+                        </div>
+                        <!--------------------------------->
+                        <br>
+                        <!------NEXT & PREVIOUS Buttons --->
+                        <button disabled="disabled" type="button" class="previous btn btn-primary" onclick="get_previous_question()">Previous</button> 
+                        <button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button><br>
+                        <br>
+                        <!------------------------->
+                        <!---Questions Information --->
+                        <code>Question </code>
+                        <?php
+                        echo '<code>' . $question_tracker . ' </code>';
                         ?>
+                        <code>of </code>
+                        <?php
+                        echo '<code>' . $total_number_of_questions . '</code>'
+                        ?>
+                        <br>
+                        <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
+                        <!---------------------->
+                        <!---- Submit Button --->
+                        <button type="submit" class="btn btn-primary" id="submit-button">I'M DONE, SUBMIT TEST</button>
+                        <p id="caution-paragraph">Do not go to any other page, your data may be lost!</p>
                     </div>
-                    <!--------------------------------->
-                    <br>
-                    <!------NEXT & PREVIOUS Buttons --->
-                    <?php
-                        echo '<button disabled="disabled" type="button" class="previous btn btn-primary">Previous</button> ';
-                        echo '<button type="button" class="next btn btn-primary" onclick="get_question()">Next</button><br>';
-                    ?>
-                    <br>
-                    <!------------------------->
-                    <!---Questions Information --->
-                    <code>Question </code>
-                    <?php
-                    echo '<code>' . $question_tracker . ' </code>';
-                    ?>
-                    <code>of </code>
-                    <?php
-                    echo '<code>' . $total_number_of_questions . '</code>'
-                    ?>
-                    <br>
-                    <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
-                    <!---------------------->
-                    <!---- Submit Button --->
-                    <button type="submit" class="btn btn-primary" id="submit-button">I'M DONE, SUBMIT TEST</button>
-                    <p id="caution-paragraph">Do not go to any other page, your data may be lost!</p>
-                </div>
             </form>
             <!----- End of form ------>
         </div>
     </body>
     <input type="hidden" id="last_q" value="1">
-    <input type="hidden" id="count" value="<?php echo $number_of_questions;?>">
+    <input type="hidden" id="count" value="<?php echo $number_of_questions; ?>">
+    <input type="hidden" id="last_p" value="<?php echo $problem_number; ?>">
 
 </html>
 
 <script>
-    function get_question() {
+    function get_next_question() {
         var last_q = $("#last_q").val();
         var count = $("#count").val();
-        var str=last_q+"&&"+count;
+        var last_p = $("#last_p").val();
+        var str = last_q + "&&" + count + "&&" + last_p;
         $.post('ajax_do_quiz.php', {
             str: str
         }, function (html) {
-            if(html!='problem_true'){
-              
-            $("#question-form").empty();
-            $("#question-form").append(html); 
-            var x=parseInt(last_q);
-            $("#last_q").val(x+1);
-            $(".previous").attr("disabled",false);
-        }
+            if (html != 'problem_true') {
+
+                $("#question-form").empty();
+                $("#question-form").append(html);
+                var x = parseInt(last_q);
+                $("#last_q").val(x + 1);
+                $(".previous").attr("disabled", false);
+            }
         });
+    }
+    function get_previous_question() {
+
     }
 
 </script>

@@ -25,6 +25,7 @@ if (isset($_POST['str'])) {
     $id = $str[0];
     $question_number = $id;
     $count = $str[1];
+    $problem_number = $str[2];
     $number_of_questions = $count;
     if ($id < $count) {
         if ($question_number < $number_of_questions) {
@@ -32,12 +33,12 @@ if (isset($_POST['str'])) {
             <div class="row">
                 <div class="col-sm-8">
                     <h5>Question #<?php echo $question_number + 1; ?></h5>
-                    <pre><?php echo $QUIZ->questions[$question_number]->question_content; ?></pre>
+                    <h5><pre><?php echo $QUIZ->questions[$question_number]->question_content; ?></pre></h5>
                 </div>
                 <div class="col-sm-4">
                     <h5>Grade : <?php echo $QUIZ->questions[$question_number]->question_grade; ?> Marks</h5>
                 </div>
-            </div><br>
+            </div>
             <?php
             $answers_count = count($QUIZ->questions[$question_number]->answers);
             echo '<div class="input-group">';
@@ -54,25 +55,25 @@ if (isset($_POST['str'])) {
     } else {
         //Problem Info
         ?> 
-            <div class ="row">
-                <div class="col-sm-8">
-                    <h5>Problem #<?php echo $problem_number;?></h5>
-                    <pre>
-                        <?php echo $QUIZ->problems[$problem_number]->Description?>
+        <div class ="row">
+            <div class="col-sm-8">
+                <h5>Problem #<?php echo $problem_number; ?></h5>
+                <strong><pre>
+                        <?php echo $QUIZ->problems[$problem_number]->Description ?>
                     </pre>
-                </div>
-                <div class="col-sm-4">
-                    <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade;?> Marks</h5>
-                </div>
-            </div><br>
-        <?php 
-        //-------------------------------------
-        //Input & Output format content 
-        echo '<div class="form-group">';
-        echo '<label for="input-format">Input format:</label>';
-        echo '<p id="input-format">' . $QUIZ->problems[$problem_number]->input_format . '</p>';
-        echo '<label for="output-format">Output format:</label>';
-        echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
+                </strong>
+            </div>
+            <div class="col-sm-4">
+                <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade; ?> Marks</h5>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-format">Input format:</label>
+            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->input_format;?></p>
+            <label for="input-format">Output format:</label>
+            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->output_format;?></p>
+        </div>
+        <?php
         // Input & Output Examples
         $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
         for ($x = 0; $x < $testCasesCount; $x++) {
