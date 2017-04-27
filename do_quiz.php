@@ -40,7 +40,7 @@ print_r($QUIZ->questions->answers);
             <h1>EXAMINATION FORM <small>powered by Hassala FCI | All rights reserved</small></h1>
             <hr>
             <h4 style="text-decoration: underline;"><center><?php echo $QUIZ->title; ?></center></h4>
-            <p style="color:red;">CAUTION: Switching to any other tab than <strong>quiz's</strong> tab will be considered as cheating and your answers will be submitted automatically./p>
+            <p style="color:red;"><strong>CAUTION:</strong> Switching to any other tab than <strong>quiz's</strong> tab will be considered as cheating and your answers will be submitted automatically.</p>
             <h5>Quiz Description:</h5> 
             <?php
             echo '<div class = "row">
@@ -62,7 +62,7 @@ print_r($QUIZ->questions->answers);
             <!--------- Countdown Timer ----->
             <div id='timer'>
                 <?php
-                echo '<script type="text/javascript">var timer=' . $QUIZ->duration[1] * 60 . '</script>';
+                echo '<script type="text/javascript">timer=' . $QUIZ->duration[1] * 60 . '</script>';
                 ?>
                 <script src="js/do_quiz_js/do_quiz_timer.js?" type="text/javascript"></script>      
             </div>
@@ -72,7 +72,7 @@ print_r($QUIZ->questions->answers);
                 <!---------Filling QUIZ questions---->
                 <?php
                 //defines the question number in quesitons array
-                $question_number = 1;
+                $question_number =1;
                 //total number of questions in the array
                 $number_of_questions = count($QUIZ->questions);
                 //defines the problem number in problems array
