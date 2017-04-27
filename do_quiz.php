@@ -26,6 +26,7 @@ print_r($QUIZ->questions->answers);
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/do_quiz_css/do_quiz_stylesheet.css">
         <script src="js/do_quiz_js/countdown.js"></script>
+        <script src="js/do_quiz_js/on_active.js"></script>
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <!---<script src="ajax_file.js"></script>--->
@@ -39,6 +40,7 @@ print_r($QUIZ->questions->answers);
             <h1>EXAMINATION FORM <small>powered by Hassala FCI | All rights reserved</small></h1>
             <hr>
             <h4 style="text-decoration: underline;"><center><?php echo $QUIZ->title; ?></center></h4>
+            <p style="color:red;">CAUTION: Switching to any other tab than <strong>quiz's</strong> tab will be considered as cheating and your answers will be submitted automatically./p>
             <h5>Quiz Description:</h5> 
             <?php
             echo '<div class = "row">
@@ -70,7 +72,7 @@ print_r($QUIZ->questions->answers);
                 <!---------Filling QUIZ questions---->
                 <?php
                 //defines the question number in quesitons array
-                $question_number = 3;
+                $question_number = 1;
                 //total number of questions in the array
                 $number_of_questions = count($QUIZ->questions);
                 //defines the problem number in problems array
@@ -92,7 +94,7 @@ print_r($QUIZ->questions->answers);
                         <div class = "col-sm-8"><h5>Question #' . $question_number . '<h5>'
                         . '<pre>' . $QUIZ->questions[$question_number]->question_content . '</pre></div>
                         <div class = "col-sm-4"><h5>Grade : ' . $QUIZ->questions[$question_number]->question_grade . ' Marks</h5></div>
-                        </div ><br>';
+                        </div><br>';
                         $answers_count = count($QUIZ->questions[$question_number]->answers);
                         echo '<div class="input-group">';
                         for ($i = 0; $i < $answers_count; $i++) {
@@ -118,7 +120,8 @@ print_r($QUIZ->questions->answers);
                         echo '<p id="output-format">' . $QUIZ->problems[$problem_number]->output_format . '</p>';
                         // Input & Output Examples
                         $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
-                        for ($x = 0; $x < $testCasesCount; $x++) {;
+                        for ($x = 0; $x < $testCasesCount; $x++) {
+;
                             echo '<label for="exampleInput">Example Input:</label>
                             <pre id="exampleInput">' . $QUIZ->problems[$problem_number]->test_case[$x]->input . '</pre>
                                 <label for="exampleOutput">Example Output:</label>
@@ -165,7 +168,11 @@ print_r($QUIZ->questions->answers);
             </form>
             <!----- End of form ------>
         </div>
-
+        <script>
+            $(document).on('click', '.next', function () {
+                <?php $question_number++;$question_tracker++;?>
+            });
+        </script>
     </body>
 
 </html>

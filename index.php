@@ -27,7 +27,8 @@ and open the template in the editor.Contest
         
 
         var options = {
-          title: 'Encounting users from each university.'
+          title: 'Encounting users from each university.',
+          is3D: true,
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
