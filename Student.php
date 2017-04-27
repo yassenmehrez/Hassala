@@ -68,11 +68,11 @@ class Student extends ApplicationUser{
        for ( $i = 0; $i < count($QuesArr); $i++)
        {
            $qst = new Question();
-           $QusID = $QuesArr[0]["question_id"];
+           $QusID = $QuesArr[$i]["question_id"];
            $qst->question_id = $QusID;
-           $qst->question_content = $QuesArr[0]["question_header"];
-           $qst->correct_answer = $QuesArr[0]["question_model_answer"];
-           $qst->question_grade = $QuesArr[0]["question_grade"];
+           $qst->question_content = $QuesArr[$i]["question_header"];
+           $qst->correct_answer = $QuesArr[$i]["question_model_answer"];
+           $qst->question_grade = $QuesArr[$i]["question_grade"];
            /*******
             * 
             * Select Answers to this Questions
@@ -84,8 +84,8 @@ class Student extends ApplicationUser{
            for ( $k = 0; $k < count($AnsArr); $k++)
            {
                $ans = new Answer();
-               $ans ->answer = $AnsArr[0]["answer"];
-               $ans ->count = $AnsArr[0]["chosen_count"];
+               $ans ->answer = $AnsArr[$k]["answer"];
+               $ans ->count = $AnsArr[$k]["chosen_count"];
                $qst->answers[$k]=$ans;
            }
            $Quiz->questions[$i] = $qst;
@@ -101,12 +101,12 @@ class Student extends ApplicationUser{
        for ( $j = 0; $j < count($ProblemArr); $j++)
        {
            $problem = new Problem_Quiz();
-           $PrblmID = $ProblemArr[0]["problem_id"];
+           $PrblmID = $ProblemArr[$j]["problem_id"];
            $problem->problem_id = $PrblmID;
-           $problem->Description= $ProblemArr[0]["description"];
-           $problem->input_format = $ProblemArr[0]["inputformat"];
-           $problem->output_format= $ProblemArr[0]["outputformat"];
-           $problem->grade = $ProblemArr[0]["problem_grade"];
+           $problem->Description= $ProblemArr[$j]["description"];
+           $problem->input_format = $ProblemArr[$j]["inputformat"];
+           $problem->output_format= $ProblemArr[$j]["outputformat"];
+           $problem->grade = $ProblemArr[$j]["problem_grade"];
            /*
             * 
             * Select Test Cases for this problem
@@ -117,8 +117,8 @@ class Student extends ApplicationUser{
            for ($l = 0; $l < count($TestCaseArr); $l++)
            {
                $Test_Case = new TestCase();
-               $Test_Case->input = $TestCaseArr[0]["input"];
-               $Test_Case->output = $TestCaseArr[0]["output"];
+               $Test_Case->input = $TestCaseArr[$l]["input"];
+               $Test_Case->output = $TestCaseArr[$l]["output"];
                $problem->test_case[] = $Test_Case;
            }
            $Quiz->problems[] = $problem;

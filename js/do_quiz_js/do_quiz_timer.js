@@ -5,7 +5,6 @@ var myCountdownTest = new Countdown({
     onComplete: countdownComplete,
     rangeHi: "minute"
 });
-f
 function countdownComplete() {
     $("form").submit();
     window.location.href = 'index.php';
