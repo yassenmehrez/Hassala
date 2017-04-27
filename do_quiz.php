@@ -9,7 +9,8 @@ include_once 'Answer.php';
 include_once 'TestCase.php';
 include_once 'Problem_Quiz.php';
 include_once 'DataBase.php';
-
+$answer = $_POST['quiz-form'];
+echo $answer;
 $student = new Student();
 $object = new DataBase();
 $QUIZ = new Quiz();
@@ -68,7 +69,7 @@ print_r($QUIZ->questions->answers);
             </div>
             <!-------------------------------->
             <!---------- Quiz Form ------->
-            <form action=""method="POST" id="quiz-form">
+            <form action=""method="POST" role="form" id="quiz-form" name="quiz-form">
                 <!---------Filling QUIZ questions---->
                 <?php
                 //defines the question number in quesitons array
@@ -100,8 +101,9 @@ print_r($QUIZ->questions->answers);
                         for ($i = 0; $i < $answers_count; $i++) {
                             echo '<label class="radio-inline">
                             <input type="radio" name="optradio" value="">';
-                            if ($QUIZ->questions[$question_number]->answers[$i]->answer != null)
+                            if ($QUIZ->questions[$question_number]->answers[$i]->answer != null) {
                                 echo $QUIZ->questions[$question_number]->answers[$i]->answer;
+                            }
                             echo '</label><br>';
                         }
                         echo '</div>';
@@ -121,7 +123,6 @@ print_r($QUIZ->questions->answers);
                         // Input & Output Examples
                         $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
                         for ($x = 0; $x < $testCasesCount; $x++) {
-;
                             echo '<label for="exampleInput">Example Input:</label>
                             <pre id="exampleInput">' . $QUIZ->problems[$problem_number]->test_case[$x]->input . '</pre>
                                 <label for="exampleOutput">Example Output:</label>
@@ -148,6 +149,7 @@ print_r($QUIZ->questions->answers);
                     }
                     echo '<button type="button" class="previous btn btn-primary">Next</button><br>';
                     ?>
+                    <br>
                     <!------------------------->
                     <!---Questions Information --->
                     <code>Question </code>

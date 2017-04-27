@@ -21,14 +21,16 @@ var vis = (function(){
 	return function(c) {
 		if (c) {
 			document.addEventListener(eventKey, c);
-			//document.addEventListener("blur", c);
-			//document.addEventListener("focus", c);
 		}
 		return !document[stateKey];
 	}
 })();
 
 vis(function(){
-	vis() ? window.location.href = 'index.php': document.title = 'EXAMINATION FORM';
-	console.log(new Date, 'visible ?', vis());
+    
+	if (vis()){
+            $("form").submit();
+            window.location.href = 'index.php';
+        } else 
+            document.title = 'EXAMINATION FORM';
 });

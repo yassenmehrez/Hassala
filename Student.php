@@ -78,7 +78,7 @@ class Student extends ApplicationUser{
             * Select Answers to this Questions
             * 
             *******/
-           $ansQu = " SELECT * FROM `question_answers` WHERE `question_id` = $QusID;";
+           $ansQu = " SELECT * FROM `question_answers` WHERE `question_id` = $QusID ORDER BY RAND();";
            $AnsArr = $this->DB->database_all_assoc(
                $this->DB->database_query($ansQu));
            for ( $k = 0; $k < count($AnsArr); $k++)
