@@ -23,9 +23,9 @@ if (isset($_POST['str'])) {
     $QUIZ = $student->TakeQuiz($CourseName);
     $str = explode('&&', $_POST['str']);
     $id = $str[0];
-    $question_number = $id;
     $count = $str[1];
     $problem_number = $str[2];
+    $question_number = $id;
     $number_of_questions = $count;
     if ($id < $count) {
         if ($question_number < $number_of_questions) {
@@ -69,9 +69,9 @@ if (isset($_POST['str'])) {
         </div>
         <div class="form-group">
             <label for="input-format">Input format:</label>
-            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->input_format;?></p>
+            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->input_format; ?></p>
             <label for="input-format">Output format:</label>
-            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->output_format;?></p>
+            <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->output_format; ?></p>
         </div>
         <?php
         // Input & Output Examples
@@ -91,5 +91,17 @@ if (isset($_POST['str'])) {
         echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
                                 <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
     }
+}
+if (isset($_POST['solve_data'])) {
+    $solve_data = explode('||', $_POST['solve_data']);
+    $question_tracker = $solve_data[0];
+    $total_number_of_questions = $solve_data[1];
+    $total_attempts = $solve_data[2];
+    ?> 
+    <code>Question <?php echo $question_tracker; ?> of <?php echo $total_number_of_questions?></code>
+    <br>
+    <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
+
+    <?php
 }
 ?>

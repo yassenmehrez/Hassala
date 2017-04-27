@@ -123,24 +123,24 @@ $QUIZ = $student->TakeQuiz($CourseName);
                                 ?> 
                                 <div class="row">
                                     <div class="col-sm-8">
-                                        <h5>Problem #<?php echo $problem_number;?></h5>
+                                        <h5>Problem #<?php echo $problem_number; ?></h5>
                                         <pre>
-                                            <?php echo $QUIZ->problems[$problem_number]->Description;?>
+                                            <?php echo $QUIZ->problems[$problem_number]->Description; ?>
                                         </pre>
                                     </div>
                                     <div class="col-lg-4">
-                                        <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade;?> Marks</h5>
+                                        <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade; ?> Marks</h5>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-format">Input format:</label>'
-                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->input_format?></p>
+                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->input_format ?></p>
                                     <label for="input-format">Output format:</label>'
-                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->output_format?></p>
+                                    <p id="input-format"><?php $QUIZ->problems[$problem_number]->output_format ?></p>
                                 </div>
-                                
+
                                 <?php
-                            // Input & Output Examples
+                                // Input & Output Examples
                                 $testCasesCount = count($QUIZ->problems[$problem_number]->test_case);
                                 for ($x = 0; $x < $testCasesCount; $x++) {
                                     echo '<label for="exampleInput">Example Input:</label>
@@ -155,7 +155,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
                                 // -------------------------------------
                                 //Answering problem text area
                                 echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
+                                <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;font-family: courier new;"></textarea>';
                             }
                             ?>
                         </div>
@@ -167,28 +167,27 @@ $QUIZ = $student->TakeQuiz($CourseName);
                         <br>
                         <!------------------------->
                         <!---Questions Information --->
-                        <code>Question </code>
-                        <?php
-                        echo '<code>' . $question_tracker . ' </code>';
-                        ?>
-                        <code>of </code>
-                        <?php
-                        echo '<code>' . $total_number_of_questions . '</code>'
-                        ?>
-                        <br>
-                        <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
+                        <div id="question-data">
+                            <code>Question <?php echo $question_tracker; ?> of <?php echo $total_number_of_questions ?></code>
+                            <br>
+                            <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
+                        </div>
                         <!---------------------->
-                        <!---- Submit Button --->
-                        <button type="submit" class="btn btn-primary" id="submit-button">I'M DONE, SUBMIT TEST</button>
-                        <p id="caution-paragraph">Do not go to any other page, your data may be lost!</p>
                     </div>
+
+                    <!---- Submit Button --->
+                    <button type="submit" class="btn btn-primary" id="submit-button">I'M DONE, SUBMIT TEST</button>
+                    <p id="caution-paragraph">Do not go to any other page, your data may be lost!</p>       
+                </div>
+                <!----- End of form ------>
             </form>
-            <!----- End of form ------>
-        </div>
     </body>
     <input type="hidden" id="last_q" value="1">
     <input type="hidden" id="count" value="<?php echo $number_of_questions; ?>">
     <input type="hidden" id="last_p" value="<?php echo $problem_number; ?>">
+    <input type="hidden" id="total_questions" value="<?php echo $total_number_of_questions; ?>">
+    <input type="hidden" id="question_tracker" value="2">
+    <input type="hidden" id="total_attempts" value="0">
 
 </html>
 
@@ -201,14 +200,23 @@ $QUIZ = $student->TakeQuiz($CourseName);
         $.post('ajax_do_quiz.php', {
             str: str
         }, function (html) {
-            if (html != 'problem_true') {
-
-                $("#question-form").empty();
-                $("#question-form").append(html);
-                var x = parseInt(last_q);
-                $("#last_q").val(x + 1);
-                $(".previous").attr("disabled", false);
-            }
+            $("#question-form").empty();
+            $("#question-form").append(html);
+            var x = parseInt(last_q);
+            $("#last_q").val(x + 1);
+            $(".previous").attr("disabled", false);
+        });
+        var question_tracker = $("#question_tracker").val();
+        var total_questions = $("#total_questions").val();
+        var total_attempts = $("#total_attempts").val();
+        var solve_data = question_tracker + "||" + total_questions + "||" + total_attempts;
+        $.post('ajax_do_quiz.php', {
+            solve_data: solve_data
+        }, function (html2) {
+            $("#question-data").empty();
+            $("#question-data").append(html2);
+            var y = parseInt(question_tracker);
+            $("#question_tracker").val(y + 1);
         });
     }
     function get_previous_question() {
