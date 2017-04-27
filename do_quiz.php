@@ -168,11 +168,6 @@ print_r($QUIZ->questions->answers);
             </form>
             <!----- End of form ------>
         </div>
-        <script>
-            $(document).on('click', '.next', function () {
-                <?php $question_number++;$question_tracker++;?>
-            });
-        </script>
     </body>
 
 </html>
