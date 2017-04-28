@@ -1,6 +1,6 @@
 <?php
 include_once 'Person.php';
-include_once 'ApplcationUser.php';
+include_once 'ApplicationUser.php';
 include_once 'Student.php';
 
 include_once 'Quiz.php';
