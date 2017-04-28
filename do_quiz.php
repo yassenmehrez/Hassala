@@ -1,16 +1,18 @@
 <?php
+session_start();
+if (isset($_SESSION['Student']) || $_SESSION['Student'] == null){
 include_once 'Person.php';
 include_once 'ApplcationUser.php';
 include_once 'Student.php';
-
 include_once 'Quiz.php';
 include_once 'Question.php';
 include_once 'Answer.php';
 include_once 'TestCase.php';
 include_once 'Problem_Quiz.php';
-include_once 'DataBase.php';
-$answer = $_POST['quiz-form'];
-echo $answer;
+if (isset($_POST['submit-quiz'])) {
+    $result = $_POST['submit-quiz'];
+    echo $result;
+}
 $student = new Student();
 $QUIZ = new Quiz();
 $CourseName = "Programming";
@@ -43,33 +45,39 @@ $QUIZ = $student->TakeQuiz($CourseName);
             <h4 style="text-decoration: underline;"><center><?php echo $QUIZ->title; ?></center></h4>
             <p style="color:red;"><strong>CAUTION:</strong> Switching to any other tab than <strong>quiz's</strong> tab will be considered as cheating and your answers will be submitted automatically.</p>
             <h5>Quiz Description:</h5> 
-            <?php
-            echo '<div class = "row">
-                        <div class = "col-sm-8">' . '<pre>' . $QUIZ->description . '</pre>' . '</div>
-                        <div class = "col-sm-4"><table class="table">
-                                              <thead class="thead-inverse">
-                                                <tr>
-                                                <th>Full Grade</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                <td>' . $QUIZ->full_grade . ' Marks</td>
-                                                    </tr>
-                                                    </table></div>
-                        </div>';
-            ?>
-            <br>
-            <!--------- Countdown Timer ----->
-            <div id='timer'>
-                <?php
-                echo '<script type="text/javascript">timer=' . $QUIZ->duration[1] * 60 . '</script>';
-                ?>
-                <script src="js/do_quiz_js/do_quiz_timer.js" type="text/javascript"></script>      
+            <!------- QUIZ DESCRIPTION ----->
+            <div class="row">
+                <div class="col-sm-8">
+                    <pre><?php echo $QUIZ->description ?></pre>
+                    <!--------- Countdown Timer ----->
+                    <div id='timer'>
+                        <?php
+                        echo '<script type="text/javascript">timer=' . $QUIZ->duration[1] * 60 . '</script>';
+                        ?>
+                        <script src="js/do_quiz_js/do_quiz_timer.js" type="text/javascript"></script>      
+                    </div>
+                    <!-------------------------------->
+                </div>
+                <!----QUIZ GRADE ----------->
+                <div class = "col-sm-4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Full Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <?php echo $QUIZ->full_grade; ?> Marks
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!-------------------------------->
             <!---------- Quiz Form ------->
-            <form action=""method="POST" role="form" id="quiz-form" name="quiz-form">
+            <form action="" method="POST" role="form" id="quiz-form">
                 <!---------Filling QUIZ questions---->
                 <?php
                 //defines the question number in quesitons array
@@ -77,7 +85,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
                 //total number of questions in the array
                 $number_of_questions = count($QUIZ->questions);
                 //defines the problem number in problems array
-                $problem_number = 1;
+                $problem_number = 0;
                 //total number of problem in the array
                 $number_of_problems = count($QUIZ->problems);
                 //questions tracker to tell student which question is he solving ATM
@@ -123,10 +131,8 @@ $QUIZ = $student->TakeQuiz($CourseName);
                                 ?> 
                                 <div class="row">
                                     <div class="col-sm-8">
-                                        <h5>Problem #<?php echo $problem_number; ?></h5>
-                                        <pre>
-                                            <?php echo $QUIZ->problems[$problem_number]->Description; ?>
-                                        </pre>
+                                        <h5>Problem #<?php echo $problem_number + 1; ?></h5>
+                                        <strong><pre><?php echo $QUIZ->problems[$problem_number]->Description; ?></pre></strong>
                                     </div>
                                     <div class="col-lg-4">
                                         <h5>Grade : <?php echo $QUIZ->problems[$problem_number]->grade; ?> Marks</h5>
@@ -163,7 +169,9 @@ $QUIZ = $student->TakeQuiz($CourseName);
                         <br>
                         <!------NEXT & PREVIOUS Buttons --->
                         <button disabled="disabled" type="button" class="previous btn btn-primary" onclick="get_previous_question()">Previous</button> 
-                        <button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button><br>
+                        <button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>
+                        <!-------------------------->
+                        <br>
                         <br>
                         <!------------------------->
                         <!---Questions Information --->
@@ -176,7 +184,7 @@ $QUIZ = $student->TakeQuiz($CourseName);
                     </div>
 
                     <!---- Submit Button --->
-                    <button type="submit" class="btn btn-primary" id="submit-button">I'M DONE, SUBMIT TEST</button>
+                    <button type="submit" class="btn btn-primary" id="submit-button" name="submit-quiz">I'M DONE, SUBMIT TEST</button>
                     <p id="caution-paragraph">Do not go to any other page, your data may be lost!</p>       
                 </div>
                 <!----- End of form ------>
@@ -184,26 +192,36 @@ $QUIZ = $student->TakeQuiz($CourseName);
     </body>
     <input type="hidden" id="last_q" value="1">
     <input type="hidden" id="count" value="<?php echo $number_of_questions; ?>">
-    <input type="hidden" id="last_p" value="<?php echo $problem_number; ?>">
+    <input type="hidden" id="last_p" value="1">
     <input type="hidden" id="total_questions" value="<?php echo $total_number_of_questions; ?>">
-    <input type="hidden" id="question_tracker" value="2">
+    <input type="hidden" id="question_tracker" value="<?php echo $question_tracker + 1; ?>">
     <input type="hidden" id="total_attempts" value="0">
-
 </html>
 
 <script>
     function get_next_question() {
         var last_q = $("#last_q").val();
         var count = $("#count").val();
-        var last_p = $("#last_p").val();
+        if (last_q == count)
+            var last_p = "0";
+        else
+            var last_p = $("#last_p").val();
         var str = last_q + "&&" + count + "&&" + last_p;
         $.post('ajax_do_quiz.php', {
             str: str
         }, function (html) {
             $("#question-form").empty();
             $("#question-form").append(html);
+            
+            if (last_q <= count){
             var x = parseInt(last_q);
             $("#last_q").val(x + 1);
+            }
+            
+            if (last_q >= count) {
+                var y = parseInt(last_p);
+                $("#last_p").val(y + 1);
+            }
             $(".previous").attr("disabled", false);
         });
         var question_tracker = $("#question_tracker").val();
@@ -217,10 +235,17 @@ $QUIZ = $student->TakeQuiz($CourseName);
             $("#question-data").append(html2);
             var y = parseInt(question_tracker);
             $("#question_tracker").val(y + 1);
+            if (question_tracker == total_questions)
+                $(".next").attr("disabled", true);
+            
         });
     }
     function get_previous_question() {
-
+      
     }
-
 </script>
+<?php } else {
+    include_once 'index.php';
+    header("Location : index.php");
+}
+?>

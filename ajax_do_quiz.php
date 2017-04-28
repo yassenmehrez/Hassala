@@ -9,7 +9,6 @@ include_once 'Question.php';
 include_once 'Answer.php';
 include_once 'TestCase.php';
 include_once 'Problem_Quiz.php';
-include_once 'DataBase.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -57,10 +56,9 @@ if (isset($_POST['str'])) {
         ?> 
         <div class ="row">
             <div class="col-sm-8">
-                <h5>Problem #<?php echo $problem_number; ?></h5>
-                <strong><pre>
-                        <?php echo $QUIZ->problems[$problem_number]->Description ?>
-                    </pre>
+                <h5>Problem #<?php echo $problem_number+1; ?></h5>
+                <strong>
+                    <pre><?php echo $QUIZ->problems[$problem_number]->Description; ?></pre>
                 </strong>
             </div>
             <div class="col-sm-4">
