@@ -45,7 +45,8 @@ class Instructor extends ApplicationUser {
             "quiz_date"     => $Quiz->date,
             "quiz_time"     => $Quiz->time,
             "quiz_duration" => $Quiz->duration,
-            "description"   => $Quiz->description
+            "description"   => $Quiz->description,
+            "quiz_full_mark"=> $Quiz->$full_grade
         );
         $QuizID = $this->DB->insert("Quiz", $quiz_data);
         if($QuizID != FALSE) //Check that Quiz inserted
