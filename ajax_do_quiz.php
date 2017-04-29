@@ -16,15 +16,15 @@ include_once 'Problem_Quiz.php';
  */
 
 if (isset($_POST['str'])) {
+    $str = explode('&&', $_POST['str']);
     $student = new Student();
     $QUIZ = new Quiz();
     $id = $str[0];
     $count = $str[1];
     $problem_number = $str[2];
     $number_of_problems = $str[3];
-    $CourseName = str[4];
+    $CourseName = "$str[4]";
     $QUIZ = $student->TakeQuiz($CourseName);
-    $str = explode('&&', $_POST['str']);
     $question_number = $id;
     $number_of_questions = $count;
     if ($id < $count) {

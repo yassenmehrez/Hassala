@@ -11,7 +11,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
     include_once 'Problem_Quiz.php';
     $student = new Student();
     $QUIZ = new Quiz();
-    $CourseName = "Programming Language 3";
+    $CourseName = "Programming";
     $QUIZ = $student->TakeQuiz($CourseName);
     ?>
     <!DOCTYPE html>
@@ -194,7 +194,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 </form>
         </body>
         <input type="hidden" id="last_q" value="1">
-        <input type="hidden" id="course_name" value="<?php echo $CourseName;?>">
+        <input type="hidden" id="course_name" value="<?php echo $CourseName; ?>">
         <input type="hidden" id="count" value="<?php echo $number_of_questions; ?>">
         <input type="hidden" id="last_p" value="1">
         <input type="hidden" id="total_questions" value="<?php echo $total_number_of_questions; ?>">
@@ -247,28 +247,37 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 $("#question_tracker").val(y + 1);
                 if (question_tracker === total_questions)
                     $(".next").attr("disabled", true);
-                console.log(last_q);
-                console.log(last_p);
-                console.log(count);
             });
 
 
         }
         function get_previous_question() {
+            var course_name = $("#course_name").val();
             var count = $("#count").val();
             var last_q = $("#last_q").val();
             if (last_q <= count) {
-                var last_q = parseInt($("#last_q").val()) - 2;
+                var last_q_index = parseInt(last_q);
+                $("#last_q").val(last_q_index-2);
+                last_q = $("#last_q").val();
             }
+            else if(last_q > count){
+                var last_q_index = parseInt(count);
+                $("#last_q").val(last_q_index-1);
+                last_q = $("#last_q").val();
+            }
+            var count_problems = $("#count_problems").val();
             var last_p = $("#last_p").val();
 
-
-            var str = last_q + "&&" + count + "&&" + last_p;
+            var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems + "&&" + course_name;
             $.post('ajax_do_quiz.php', {
                 str: str
             }, function (html) {
                 $("#question-form").empty();
                 $("#question-form").append(html);
+                if (last_q <= count) {
+                    var y = parseInt(last_q);
+                    $("#last_q").val(y + 1);
+                }
             });
 
 
