@@ -197,11 +197,13 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
 
     <script>
         function get_next_question() {
+            //last_q denotes last_question_index
             var last_q = $("#last_q").val();
+            //count denotes number of questions
             var count = $("#count").val();
             var count_problems = $("#count_problems").val();
              
-            if (last_q === count)
+            if (last_q === count && count != "0")
                 var last_p = "0";
             else
                 var last_p = $("#last_p").val();
@@ -246,7 +248,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
         function get_previous_question() {
             var count = $("#count").val();
             var last_q = $("#last_q").val();
-            if(count <= last_q){
+            if(last_q <= count){
                 var last_q = parseInt($("#last_q").val())-2;
             }
             var last_p = $("#last_p").val();
@@ -284,6 +286,6 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
 <?php
 } else {
     include_once 'index.php';
-    header("Location : index.php");
+    header("Location: index.php");
 }
 
