@@ -165,7 +165,14 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                             <br>
                             <!------NEXT & PREVIOUS Buttons --->
                             <button disabled="disabled" type="button" class="previous btn btn-primary" onclick="get_previous_question()">Previous</button> 
-                            <button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>
+                            <?php
+                            if ($total_number_of_questions == 1) {
+
+                                echo '<button disabled="disabled" type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>';
+                            } else {
+                                echo '<button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>';
+                            }
+                            ?>
                             <!-------------------------->
                             <br>
                             <br>
@@ -187,27 +194,29 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 </form>
         </body>
         <input type="hidden" id="last_q" value="1">
+        <input type="hidden" id="course_name" value="<?php echo $CourseName; ?>">
         <input type="hidden" id="count" value="<?php echo $number_of_questions; ?>">
         <input type="hidden" id="last_p" value="1">
         <input type="hidden" id="total_questions" value="<?php echo $total_number_of_questions; ?>">
         <input type="hidden" id="question_tracker" value="<?php echo $question_tracker + 1; ?>">
         <input type="hidden" id="total_attempts" value="0">
-        <input type="hidden" id="count_problems" value="<?php echo $number_of_problems;?>">
+        <input type="hidden" id="count_problems" value="<?php echo $number_of_problems; ?>">
     </html>
 
     <script>
         function get_next_question() {
+            var course_name = $("#course_name").val();
             //last_q denotes last_question_index
             var last_q = $("#last_q").val();
             //count denotes number of questions
             var count = $("#count").val();
             var count_problems = $("#count_problems").val();
-             
+
             if (last_q === count && count != "0")
                 var last_p = "0";
             else
                 var last_p = $("#last_p").val();
-            var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems;
+            var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems + "&&" + course_name;
             $.post('ajax_do_quiz.php', {
                 str: str
             }, function (html) {
@@ -238,34 +247,43 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 $("#question_tracker").val(y + 1);
                 if (question_tracker === total_questions)
                     $(".next").attr("disabled", true);
-                console.log(last_q);
-                console.log(last_p);
-                console.log(count);
             });
-            
+
 
         }
         function get_previous_question() {
+            var course_name = $("#course_name").val();
             var count = $("#count").val();
             var last_q = $("#last_q").val();
-            if(last_q <= count){
-                var last_q = parseInt($("#last_q").val())-2;
+            if (last_q <= count) {
+                var last_q_index = parseInt(last_q);
+                $("#last_q").val(last_q_index-2);
+                last_q = $("#last_q").val();
             }
+            else if(last_q > count){
+                var last_q_index = parseInt(count);
+                $("#last_q").val(last_q_index-1);
+                last_q = $("#last_q").val();
+            }
+            var count_problems = $("#count_problems").val();
             var last_p = $("#last_p").val();
-            
-            
-            var str = last_q + "&&" + count + "&&" + last_p;
+
+            var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems + "&&" + course_name;
             $.post('ajax_do_quiz.php', {
                 str: str
             }, function (html) {
                 $("#question-form").empty();
                 $("#question-form").append(html);
+                if (last_q <= count) {
+                    var y = parseInt(last_q);
+                    $("#last_q").val(y + 1);
+                }
             });
-            
-            
-            
+
+
+
             //------------------------
-            var question_tracker = parseInt($("#question_tracker").val())-2;
+            var question_tracker = parseInt($("#question_tracker").val()) - 2;
             var total_questions = $("#total_questions").val();
             var total_attempts = $("#total_attempts").val();
             var solve_data = question_tracker + "||" + total_questions + "||" + total_attempts;
@@ -276,14 +294,14 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 $("#question-data").append(html2);
                 var y = parseInt(question_tracker);
                 $("#question_tracker").val(y + 1);
-                if (question_tracker =="1")
+                if (question_tracker == "1")
                     $(".previous").attr("disabled", true);
 
             });
 
         }
     </script>
-<?php
+    <?php
 } else {
     include_once 'index.php';
     header("Location: index.php");

@@ -16,17 +16,17 @@ include_once 'Problem_Quiz.php';
  */
 
 if (isset($_POST['str'])) {
+    $str = explode('&&', $_POST['str']);
     $student = new Student();
     $QUIZ = new Quiz();
-    $CourseName = "Programming";
-    $QUIZ = $student->TakeQuiz($CourseName);
-    $str = explode('&&', $_POST['str']);
     $id = $str[0];
     $count = $str[1];
     $problem_number = $str[2];
+    $number_of_problems = $str[3];
+    $CourseName = "$str[4]";
+    $QUIZ = $student->TakeQuiz($CourseName);
     $question_number = $id;
     $number_of_questions = $count;
-    $number_of_problems = $str[3];
     if ($id < $count) {
         if ($question_number < $number_of_questions) {
             ?>
@@ -57,7 +57,7 @@ if (isset($_POST['str'])) {
         ?> 
         <div class ="row">
             <div class="col-sm-8">
-                <h5>Problem #<?php echo $problem_number+1; ?></h5>
+                <h5>Problem #<?php echo $problem_number + 1; ?></h5>
                 <strong>
                     <pre><?php echo $QUIZ->problems[$problem_number]->Description; ?></pre>
                 </strong>
@@ -97,7 +97,7 @@ if (isset($_POST['solve_data'])) {
     $total_number_of_questions = $solve_data[1];
     $total_attempts = $solve_data[2];
     ?> 
-    <code>Question <?php echo $question_tracker; ?> of <?php echo $total_number_of_questions?></code>
+    <code>Question <?php echo $question_tracker; ?> of <?php echo $total_number_of_questions ?></code>
     <br>
     <code>Total Attempts : <?php echo $total_attempts; ?></code><br>
 
