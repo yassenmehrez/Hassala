@@ -17,11 +17,11 @@ class Instructor extends ApplicationUser {
     public $position;
     public $degree;
     public $univerity = array();
-    public $courses;
+    public $courses = array();
 
 
     public function __construct() {
-        $this->courses = new ArrayObject(Course);
+        
     }
 
     public function CreateCourse(){
