@@ -11,7 +11,6 @@
  *
  * @author root
  */
-include_once 'DataBase.php';
 include_once 'ApplicationUser.php';
 include_once 'Course.php';
 include_once 'Quiz.php';

@@ -1,17 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
-    include_once 'Person.php';
-    include_once 'ApplicationUser.php';
+if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
     include_once 'Student.php';
-    include_once 'Quiz.php';
-    include_once 'Question.php';
-    include_once 'Answer.php';
     include_once 'TestCase.php';
     include_once 'Problem_Quiz.php';
     $student = new Student();
     $QUIZ = new Quiz();
-    $CourseName = "Programming";
+    $CourseName = "Logic Design";
     $QUIZ = $student->TakeQuiz($CourseName);
     ?>
     <!DOCTYPE html>
@@ -135,10 +130,10 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="input-format">Input format:</label>'
-                                        <p id="input-format"><?php $QUIZ->problems[$problem_number]->input_format ?></p>
-                                        <label for="input-format">Output format:</label>'
-                                        <p id="input-format"><?php $QUIZ->problems[$problem_number]->output_format ?></p>
+                                        <label for="input-format">Input format:</label>
+                                        <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->input_format; ?></p>
+                                        <label for="input-format">Output format:</label>
+                                        <p id="input-format"><?php echo $QUIZ->problems[$problem_number]->output_format; ?></p>
                                     </div>
 
                                     <?php
@@ -153,7 +148,6 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                                             echo '<hr>';
                                         }
                                     }
-                                    echo '</div>';
                                     // -------------------------------------
                                     //Answering problem text area
                                     echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
@@ -192,6 +186,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                     </div>
                     <!----- End of form ------>
                 </form>
+            </div>
         </body>
         <input type="hidden" id="last_q" value="1">
         <input type="hidden" id="course_name" value="<?php echo $CourseName; ?>">
@@ -255,19 +250,22 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
             var course_name = $("#course_name").val();
             var count = $("#count").val();
             var last_q = $("#last_q").val();
-            if (last_q <= count) {
-                var last_q_index = parseInt(last_q);
-                $("#last_q").val(last_q_index-2);
-                last_q = $("#last_q").val();
-            }
-            else if(last_q > count){
-                var last_q_index = parseInt(count);
-                $("#last_q").val(last_q_index-1);
-                last_q = $("#last_q").val();
-            }
             var count_problems = $("#count_problems").val();
             var last_p = $("#last_p").val();
 
+            if (last_q <= count) {
+                var last_q_index = parseInt(last_q);
+                $("#last_q").val(last_q_index - 2);
+                last_q = $("#last_q").val();
+            } else if (last_q > count && last_p <= 1) {
+                var last_q_index = parseInt(count);
+                $("#last_q").val(last_q_index - 1);
+                last_q = $("#last_q").val();
+            } else if (last_q > count) {
+                var last_p_index = parseInt(last_p);
+                $("#last_p").val(last_p_index - 2);
+                last_p = $("#last_p").val();
+            }
             var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems + "&&" + course_name;
             $.post('ajax_do_quiz.php', {
                 str: str
@@ -277,6 +275,10 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 if (last_q <= count) {
                     var y = parseInt(last_q);
                     $("#last_q").val(y + 1);
+                }
+                if (last_q > count) {
+                    var last_p_index = parseInt(last_p);
+                    $("#last_p").val(last_p_index + 1);
                 }
             });
 
@@ -296,7 +298,8 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 $("#question_tracker").val(y + 1);
                 if (question_tracker == "1")
                     $(".previous").attr("disabled", true);
-
+                if (question_tracker < total_questions)
+                    $(".next").attr("disabled", false);
             });
 
         }

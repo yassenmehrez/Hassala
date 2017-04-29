@@ -11,6 +11,7 @@
  *
  * @author root
  */
+include_once 'ApplicationUser.php';
 class Instructor extends ApplicationUser {
     //put your code here
     public $position;
