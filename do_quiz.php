@@ -6,7 +6,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
     include_once 'Problem_Quiz.php';
     $student = new Student();
     $QUIZ = new Quiz();
-    $CourseName = "Logic Design";
+    $CourseName = "Programming";
     $QUIZ = $student->TakeQuiz($CourseName);
     ?>
     <!DOCTYPE html>
@@ -16,7 +16,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <!-- Latest compiled and minified CSS -->
             <link rel="stylesheet" href="libraries/bootstrap-3.3.7-dist/css/bootstrap.css">
-            <link rel="stylesheet" href="/css/do_quiz_css/do_quiz_stylesheet.css">
+            <link rel="stylesheet" href="css/do_quiz_css/do_quiz_stylesheet.css">
             <script src="js/do_quiz_js/countdown.js"></script>
             <script src="js/do_quiz_js/on_active.js"></script>
             <script src="libraries/jquery 1.12.1.min.js"></script>
