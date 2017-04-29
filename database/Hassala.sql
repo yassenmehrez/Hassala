@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 27, 2017 at 11:58 AM
+-- Generation Time: Apr 29, 2017 at 12:18 PM
 -- Server version: 5.7.17
 -- PHP Version: 7.0.18
 
@@ -63,7 +63,8 @@ CREATE TABLE `Course` (
 --
 
 INSERT INTO `Course` (`course_id`, `course_name`, `course_description`, `instructor_id`) VALUES
-(1, 'Programming', 'This course is a way to teach new programming skills to beginners.', 1);
+(1, 'Programming', 'This course is a way to teach new programming skills to beginners.', 1),
+(2, 'Programming Language 3', 'In this course we\'re going to use Haskell as main language for programming, Haskell is a functional programming.', 1);
 
 -- --------------------------------------------------------
 
@@ -189,7 +190,10 @@ CREATE TABLE `Question` (
 
 INSERT INTO `Question` (`question_header`, `question_model_answer`, `question_id`, `quiz_id`, `question_grade`) VALUES
 ('What does HTML stands for?', 'Hypertext Markup Language ', 1, 1, 1.5),
-('What does CSS stands for?', 'Cascading Style Sheet', 2, 1, 3.5);
+('What does CSS stands for?', 'Cascading Style Sheet', 2, 1, 3.5),
+('What is the acronym for DHCP?', 'Dynamic Host Configuration Protocol', 3, 1, 2.5),
+('What is the meaning of functional programming?', 'Functional Programming', 4, 2, 5),
+('What is ZipWith() function?', 'function', 5, 2, 4.5);
 
 -- --------------------------------------------------------
 
@@ -212,7 +216,19 @@ INSERT INTO `question_answers` (`answer_id`, `question_id`, `answer`, `chosen_co
 (1, 1, 'HTML HTML HTML', 0),
 (2, 1, 'CSS CSS CSS', 0),
 (3, 2, 'Yassen Ghaby', 0),
-(4, 2, 'Eyad Aghba', 0);
+(4, 2, 'Eyad Aghba', 0),
+(5, 3, 'Dynamic Host Configuration Protocol', 0),
+(6, 3, 'DCHP DCHP 1', 0),
+(7, 3, 'DHCP DHCP 2', 0),
+(8, 3, 'DCHP DCHP 3', 0),
+(9, 3, 'DHCP DHCP 4', 0),
+(10, 4, 'Answer 1', 0),
+(11, 4, 'Answer 2', 0),
+(12, 4, 'Answer 3', 0),
+(13, 4, 'Answer 4', 0),
+(14, 4, 'Answer 5', 0),
+(15, 5, 'ZipWith() 1', 0),
+(16, 5, 'ZipWith() 2', 0);
 
 -- --------------------------------------------------------
 
@@ -237,7 +253,8 @@ CREATE TABLE `Quiz` (
 --
 
 INSERT INTO `Quiz` (`quiz_id`, `instructor_id`, `course_id`, `title`, `quiz_date`, `quiz_time`, `quiz_duration`, `description`, `quiz_full_mark`) VALUES
-(1, 1, 1, 'Quiz - 1', '2017-04-29', '08:30:00', '00:20:00', 'This is your first quiz, please try to achieve your best in order to have a high GPA.', 40);
+(1, 1, 1, 'Quiz - 1', '2017-04-29', '08:30:00', '00:20:00', 'This is your first quiz, please try to achieve your best in order to have a high GPA.', 40),
+(2, 1, 2, 'Quiz - 2', '2017-04-29', '08:30:00', '00:30:00', 'This is your first quiz in Haskell programming language, do your best.', 20);
 
 -- --------------------------------------------------------
 
@@ -271,7 +288,8 @@ CREATE TABLE `quiz_problem` (
 
 INSERT INTO `quiz_problem` (`problem_id`, `description`, `inputformat`, `outputformat`, `quiz_id`, `problem_grade`) VALUES
 (1, 'Very hard programming problem', '1 <= N <= 100', 'Print the answer followed by endline', 1, 5),
-(2, 'Very easy programming problem', '1 <= N <= 200', 'Don\'t print endline at the end of the answer', 1, 3);
+(2, 'Very easy programming problem', '1 <= N <= 200', 'Don\'t print endline at the end of the answer', 1, 3),
+(3, 'This problem is one of the most hardest programming quiz.', '1 <= M <= 1000', 'Print \"YES\" if true\r\nPrint \"NO\" if false', 1, 7.5);
 
 -- --------------------------------------------------------
 
@@ -365,7 +383,8 @@ INSERT INTO `Student` (`student_id`, `college_id`, `first_name`, `last_name`, `u
 INSERT INTO `Student` (`student_id`, `college_id`, `first_name`, `last_name`, `university`, `rate`, `email`, `solved_problems`, `profile_photo`, `gender`, `codeforces_handle`, `qr_code_string`) VALUES
 (7, '123331', 'Khaled', 'Ahmed', 'Monofya University', 9.2, 'khaledahmed@mono.com', 10, NULL, 'Male', 'ahmed.mono', 'safeewf32r34f44cf2'),
 (8, '23094823', 'Remon', 'Raouf', 'Sherouk-Academy', 90, 'ayhaga@hotmail.com', 10, NULL, 'Male', 'rrriad', '83274032987d23'),
-(9, '20150156', 'Eyad', 'Muhammed', 'October University', 9, 'ayhaga@hotmail.com', 10, NULL, 'Male', 'eyadmuhammed', '3297fh328ff2jie');
+(9, '20150156', 'Eyad', 'Muhammed', 'October University', 9, 'ayhaga@hotmail.com', 10, NULL, 'Male', 'eyadmuhammed', '3297fh328ff2jie'),
+(10, '16104897', 'Fady', 'Hany', 'AASTMT', 10, 'fadyhany@gmail.com', 10, NULL, 'Male', 'fadyhany2', '93r7wkjc09328jd');
 
 -- --------------------------------------------------------
 
@@ -624,7 +643,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Course`
 --
 ALTER TABLE `Course`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `Instructor`
 --
@@ -634,17 +653,17 @@ ALTER TABLE `Instructor`
 -- AUTO_INCREMENT for table `question_answers`
 --
 ALTER TABLE `question_answers`
-  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `Quiz`
 --
 ALTER TABLE `Quiz`
-  MODIFY `quiz_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `quiz_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `Student`
 --
 ALTER TABLE `Student`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --
