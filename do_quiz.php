@@ -8,6 +8,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
     $QUIZ = new Quiz();
     $CourseName = "Programming";
     $QUIZ = $student->TakeQuiz($CourseName);
+    if(isset($_))
     ?>
     <!DOCTYPE html>
     <html>
@@ -164,7 +165,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
 
                                 echo '<button disabled="disabled" type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>';
                             } else {
-                                echo '<button type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>';
+                                echo '<button type="button" class="next btn btn-primary" onclick="get_next_question()" name="next-button">Next</button>';
                             }
                             ?>
                             <!-------------------------->
@@ -200,6 +201,9 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
 
     <script>
         function get_next_question() {
+            var answer = $('input[name="optradio"]:checked').val();
+            console.log(answer);
+            // ------------------------------------------------------
             var course_name = $("#course_name").val();
             //last_q denotes last_question_index
             var last_q = $("#last_q").val();
@@ -243,8 +247,6 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] === null) {
                 if (question_tracker === total_questions)
                     $(".next").attr("disabled", true);
             });
-
-
         }
         function get_previous_question() {
             var course_name = $("#course_name").val();

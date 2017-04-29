@@ -87,5 +87,4 @@ if (isset($_SERVER['Instructor'])){
 <?php } else {
      header('Location: index.php');
 }
-//fvvc
 ?>
