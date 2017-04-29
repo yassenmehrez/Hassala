@@ -2,17 +2,13 @@
 session_start();
 if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
     include_once 'Person.php';
-    include_once 'ApplcationUser.php';
+    include_once 'ApplicationUser.php';
     include_once 'Student.php';
     include_once 'Quiz.php';
     include_once 'Question.php';
     include_once 'Answer.php';
     include_once 'TestCase.php';
     include_once 'Problem_Quiz.php';
-    if (isset($_POST['submit-quiz'])) {
-        $result = $_POST['submit-quiz'];
-        echo $result;
-    }
     $student = new Student();
     $QUIZ = new Quiz();
     $CourseName = "Programming";
@@ -126,7 +122,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                                         echo '</label><br>';
                                     }
                                     echo '</div>';
-                                } else {
+                                } elseif ($number_of_problems != 0) {
                                     //Problem Info
                                     ?> 
                                     <div class="row">
@@ -196,17 +192,20 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
         <input type="hidden" id="total_questions" value="<?php echo $total_number_of_questions; ?>">
         <input type="hidden" id="question_tracker" value="<?php echo $question_tracker + 1; ?>">
         <input type="hidden" id="total_attempts" value="0">
+        <input type="hidden" id="count_problems" value="<?php echo $number_of_problems;?>">
     </html>
 
     <script>
         function get_next_question() {
             var last_q = $("#last_q").val();
             var count = $("#count").val();
+            var count_problems = $("#count_problems").val();
+             
             if (last_q === count)
                 var last_p = "0";
             else
                 var last_p = $("#last_p").val();
-            var str = last_q + "&&" + count + "&&" + last_p;
+            var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems;
             $.post('ajax_do_quiz.php', {
                 str: str
             }, function (html) {
@@ -237,18 +236,34 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                 $("#question_tracker").val(y + 1);
                 if (question_tracker === total_questions)
                     $(".next").attr("disabled", true);
-
+                console.log(last_q);
+                console.log(last_p);
+                console.log(count);
             });
-            console.log("Next log -------");
-            console.log(question_tracker);
+            
+
         }
         function get_previous_question() {
-            var question_tracker = parseInt($("#question_tracker").val())-2;
-            var last_q = $("#last_q").val();
             var count = $("#count").val();
+            var last_q = $("#last_q").val();
+            if(count <= last_q){
+                var last_q = parseInt($("#last_q").val())-2;
+            }
             var last_p = $("#last_p").val();
             
+            
+            var str = last_q + "&&" + count + "&&" + last_p;
+            $.post('ajax_do_quiz.php', {
+                str: str
+            }, function (html) {
+                $("#question-form").empty();
+                $("#question-form").append(html);
+            });
+            
+            
+            
             //------------------------
+            var question_tracker = parseInt($("#question_tracker").val())-2;
             var total_questions = $("#total_questions").val();
             var total_attempts = $("#total_attempts").val();
             var solve_data = question_tracker + "||" + total_questions + "||" + total_attempts;
@@ -263,8 +278,7 @@ if (isset($_SESSION['Student']) || $_SESSION['Student'] == null) {
                     $(".previous").attr("disabled", true);
 
             });
-            console.log("Previous log -------");
-            console.log(question_tracker);
+
         }
     </script>
 <?php

@@ -16,7 +16,7 @@ class DataBase {
     
     private $host="localhost";
     private $username="root";
-    private $password="Fedora25:(";
+    private $password="";
     //private static $instance;// single database object i will explain it next section 
     private $db_name="Hassala";//your database name 
     private $mysqli; // 

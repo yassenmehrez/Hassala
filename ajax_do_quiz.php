@@ -26,6 +26,7 @@ if (isset($_POST['str'])) {
     $problem_number = $str[2];
     $question_number = $id;
     $number_of_questions = $count;
+    $number_of_problems = $str[3];
     if ($id < $count) {
         if ($question_number < $number_of_questions) {
             ?>
@@ -51,7 +52,7 @@ if (isset($_POST['str'])) {
             }
             echo '</div>';
         }
-    } else {
+    } elseif ($number_of_problems != 0) {
         //Problem Info
         ?> 
         <div class ="row">
