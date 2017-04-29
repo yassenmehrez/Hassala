@@ -11,7 +11,7 @@
  *
  * @author root
  */
-class Matrial {
+class Material {
     //put your code here
     public $id;
     public $title; 

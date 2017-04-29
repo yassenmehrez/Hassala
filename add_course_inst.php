@@ -1,4 +1,18 @@
-<?php ?>
+<?php 
+session_start();
+include_once 'Instructor.php';
+include_once 'Course.php';
+include_once 'Material.php';
+
+if (isset($_SERVER['Instructor'])){
+   $instructor = new Instructor();
+   $instructor = $_SERVER['Instructor'];
+   if (isset($_POST['submit_course'])){
+    $course = new Course();
+    
+   }
+
+?>
 <!DOCTYPE html>
 
 <html>
@@ -8,6 +22,7 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="libraries/bootstrap-3.3.7-dist/css/bootstrap.css">
         <script src="libraries/jquery 1.12.1.min.js"></script>
+        <script src="js/add_course_inst_js/add_course.js"></script>
         <script src="libraries/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     </head>
     <body>
@@ -44,28 +59,32 @@
             <div class="form-group row">
                 <label for="course_name" class="col-2 col-form-label">Course Name</label>
                 <div class="col-10">
-                    <input class="form-control" type="text" value="" id="course_name">
+                    <input class="form-control" type="text" value="" id="course_name" name="course_name" required="true">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="Textarea">Course Description</label>
                 <div class="col-10">
-                    <textarea class="form-control" id="Textarea" rows="3"></textarea>
+                    <textarea class="form-control" id="Textarea" rows="3" required="true" name ="description"></textarea>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="material_title" class="col-2 col-form-label">Material Title</label>
+                <label for="material_title" class="col-2 col-form-label" >Material Title</label>
                  <div class="col-10">
-                     <input class="form-control" type="text" value="" id="material_title">
+                     <input class="form-control" type="text" value="" id="material_title" required="true" name ="material_title">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="material_url" class="col-2 col-form-label">Material URL</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="" id="material_url">
+                    <input class="form-control" type="url" value="" id="material_url" required="true" name="material_url">
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit" name="submit_course">Submit</button>
         </div>  
     </body>
 </html>
+<?php } else {
+     header('Location: index.php');
+}
+?>
