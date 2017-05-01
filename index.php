@@ -1,4 +1,6 @@
 <?php 
+session_destroy();
+session_start();
 include_once 'DataBase.php';
 include_once 'Person.php';
 include_once 'ApplicationUser.php';

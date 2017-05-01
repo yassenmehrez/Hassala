@@ -23,13 +23,14 @@ var vis = (function(){
 			document.addEventListener(eventKey, c);
 		}
 		return !document[stateKey];
-	}
+	};
 })();
 
 vis(function(){
     
 	if (vis()){
             $("form").submit();
+            sessionStorage.clear();
             window.location.href = 'index.php';
         } else 
             document.title = 'EXAMINATION FORM';

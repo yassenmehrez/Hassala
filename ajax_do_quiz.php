@@ -84,12 +84,22 @@ if (isset($_POST['str'])) {
                 echo '<hr>';
             }
         }
-        echo '</div>';
-        // -------------------------------------
-        //Answering problem text area
-        echo '<label for="exampleTextarea">Please copy your code into the following textarea</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;"></textarea>';
+        ?>
+        <label for="select-coding-language">Coding Language:</label>
+        <select class="selectpicker" id="select-coding-language">
+            <option>C</option>
+            <option>C++</option>
+        </select>
+        <!--------------------------------->
+        <br>
+        <!----Answering problem text area-->
+        <label for="exampleTextarea">Please copy your code into the following textarea</label>
+        <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;font-family: courier new;"></textarea>
+        <!-- ------------------------------------->
+        <?php
     }
+    ?> 
+    <?php
 }
 if (isset($_POST['solve_data'])) {
     $solve_data = explode('||', $_POST['solve_data']);
