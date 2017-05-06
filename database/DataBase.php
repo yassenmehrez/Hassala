@@ -104,7 +104,7 @@ class DataBase {
      * @return associated array of rows 
      */
     public function database_all_assoc($database_result) {
-
+        $array_return = array();
         while ($row = mysqli_fetch_assoc($database_result)) {
             $array_return[] = $row;
         }
