@@ -246,5 +246,9 @@ class Student extends ApplicationUser {
     private function RemarkProblem($Stdn_Prblm, $Problem_Quiz, $QuizID) {
         return 0;
     }
+    
+        public function ViewCourse($ID) {
+        return $this->stu_query->getCourses($ID);
+    }
 
 }
