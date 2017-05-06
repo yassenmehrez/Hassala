@@ -11,6 +11,7 @@
  *
  * @author root
  */
+include_once dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR .'instructorQueries.php';
 include_once 'ApplicationUser.php';
 
 class Instructor extends ApplicationUser {
@@ -29,7 +30,7 @@ class Instructor extends ApplicationUser {
     public function __construct() {
         $this->val = new Validator();
         $this->solvedProblems = 0;
-       // $this->inst_query = new instructorQueries();
+       $this->inst_query = new instructorQueries();
     }
 
     public function CreateCourse() {

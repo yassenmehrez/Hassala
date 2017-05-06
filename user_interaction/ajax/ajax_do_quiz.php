@@ -1,6 +1,5 @@
 
 <?php
-session_start();
 include_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'initialize.inc.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,6 +8,7 @@ include_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'initia
  */
 
 if (isset($_POST['str'])) {
+    session_start();
     $str = explode('&&', $_POST['str']);
     $student = new Student();
     $QUIZ = new Quiz();
@@ -40,9 +40,11 @@ if (isset($_POST['str'])) {
                 <?php for ($i = 0; $i < $answers_count; $i++) { ?>
                     <label class="radio-inline">
                         <input type="radio" id="choose" name="optradio" value="<?php echo $QUIZ->questions[$question_number]->answers[$i]->answer; ?>" 
-                               <?php if ($_SESSION['student-question-answer'][$question_number]->student_answer == $QUIZ->questions[$question_number]->answers[$i]->answer) {
-                                   echo "checked='checked'";
-                               } ?>>
+                        <?php
+                        if ($_SESSION['student-question-answer'][$question_number]->student_answer != null && $_SESSION['student-question-answer'][$question_number]->student_answer == $QUIZ->questions[$question_number]->answers[$i]->answer) {
+                            echo "checked='checked'";
+                        }
+                        ?>>
                                <?php
                                if ($QUIZ->questions[$question_number]->answers[$i]->answer != null) {
                                    echo $QUIZ->questions[$question_number]->answers[$i]->answer;
@@ -56,6 +58,7 @@ if (isset($_POST['str'])) {
             <?php
         }
     } elseif ($number_of_problems != 0) {
+        session_start();
         //Problem Info
         ?> 
         <div class ="row">
@@ -97,7 +100,9 @@ if (isset($_POST['str'])) {
         <br>
         <!----Answering problem text area-->
         <label for="exampleTextarea">Please copy your code into the following textarea</label>
-        <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;font-family: courier new;" name="student_code"></textarea>
+        <textarea class="form-control" id="exampleTextarea" rows="30" style="resize:none;font-family: courier new;" name="student_code">
+            <?php if ($_SESSION['student-problem-answer'][$problem_number] != null) echo $_SESSION['student-problem-answer'][$problem_number]->student_code; ?>
+        </textarea>
         <input type="hidden" id="problem-id" value="<?php echo $QUIZ->problems[$problem_number]->problem_id; ?>">
         <!-- ------------------------------------->
         <?php
@@ -106,29 +111,34 @@ if (isset($_POST['str'])) {
     <?php
 }
 if (isset($_POST['problem_answer']) && isset($_POST['last_p'])) {
+    session_start();
     $problem_index = $_POST['last_p'];
-    if ($_SESSION['student-problem-answer'][$problem_index] != null) {
+    $problem_object = explode(":", $_POST['problem-answer']);
+    if ($_SESSION['student-problem-answer'][$problem_index] == null) {
         $problem = new student_quiz_problem();
-        $problem_object = explode(":", $_POST['problem-answer']);
         $problem->problem_id = $problem_object[0];
         $problem->student_id = $problem_object[1];
         $problem->student_code = $problem_object[2];
+        $problem->problem_status = FALSE;
         $_SESSION['student-problem-answer'][] = $problem;
     } else {
         $_SESSION['student-problem-answer'][$problem_index]->student_code = $problem_object[2];
     }
+    print_r($_SESSION['student-problem-answer']);
 }
 if (isset($_POST['question_answer']) && isset($_POST['last_q'])) {
-    $question_index = $_POST['last_q']-1;
+    session_start();
+    $question_index = $_POST['last_q'] - 1;
+    $question_object = explode(":", $_POST['question_answer']);
     if ($_SESSION['student-question-answer'][$question_index] == null) {
         $question = new student_question();
-        $question_object = explode(":", $_POST['question_answer']);
         $question->student_answer = $question_object[0];
         $question->question_id = $question_object[1];
         $question->student_id = $question_object[2];
+        $question->question_status = FALSE;
         $_SESSION['student-question-answer'][] = $question;
-    } else if ($_SESSION['student-question-answer'][$question_index]->question_id != null) {
-        $_SESSION['student-question-answer'][$question_index]->student_answer = $question_object[1];
+    } else if ($_SESSION['student-question-answer'][$question_index]->student_answer != null) {
+        $_SESSION['student-question-answer'][$question_index]->student_answer = $question_object[0];
     }
     print_r($_SESSION['student-question-answer']);
 }

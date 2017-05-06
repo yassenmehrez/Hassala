@@ -17,6 +17,28 @@ function get_next_question() {
         var last_p = "0";
     else
         var last_p = $("#last_p").val();
+    //---------------------------------------------------
+    var student_id = $("#student_id").val();
+    if (last_q <= (count+1)) {
+        var answer = $('input[name="optradio"]:checked').val();
+        var question_id = $("#question-id").val();
+        var question_answer = answer + ":" + question_id + ":" + student_id;
+        console.log(question_answer);
+        $.post('ajax/ajax_do_quiz.php', {
+            question_answer: question_answer,
+            last_q: last_q
+        });
+    } else if (count_problems != "0"){
+        var student_code = "khara.val()";
+        var problem_id = $("#problem-id").val();
+        var problem_answer = problem_id + ":" + student_id + ":" + student_code;
+        console.log(problem_answer);
+        $.post('ajax/ajax_do_quiz.php', {
+            problem_answer: problem_answer,
+            last_p: last_p
+        });
+    }
+    // ------------------------------------------------------
     var str = last_q + "&&" + count + "&&" + last_p + "&&" + count_problems + "&&" + course_name;
     $.post('ajax/ajax_do_quiz.php', {
         str: str
@@ -49,28 +71,7 @@ function get_next_question() {
         if (question_tracker == total_questions)
             $(".next").attr("disabled", true);
     });
-    //---------------------------------------------------
-    var student_id = $("#student_id").val();
-    if (true) {
-        var answer = $('input[name="optradio"]:checked').val();
-        var question_id = $("#question-id").val();
-        var question_answer = answer + ":" + question_id + ":" + student_id;
-        console.log(question_answer);
-        $.post('ajax/ajax_do_quiz.php', {
-            question_answer: question_answer,
-            last_q:last_q
-        });
-    }
-    else {
-       var student_code = "khara.val()";
-       var problem_id = $("#problem-id").val();
-       var problem_answer = problem_id + ":" +student_id + ":" + student_code;
-       $.post('ajax/ajax_do_quiz.php', {
-            problem_answer: problem_answer,
-            last_p:last_p
-        });
-    }
-    // ------------------------------------------------------
+
 }
 function get_previous_question() {
     var course_name = $("#course_name").val();

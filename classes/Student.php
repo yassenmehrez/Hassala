@@ -11,6 +11,7 @@
  *
  * @author root
  */
+include_once dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR .'studentQueries.php';
 include_once 'ApplicationUser.php';
 include_once 'Course.php';
 include_once 'Quiz.php';
@@ -34,7 +35,7 @@ class Student extends ApplicationUser {
         $this->DB = new DataBase();
         $this->solvedProblems = 0;
         $this->rate = 0;
-        //$this->stu_query = new studentQueries();
+        $this->stu_query = new studentQueries();
     }
 
     public function PartcipateCourse($param) {

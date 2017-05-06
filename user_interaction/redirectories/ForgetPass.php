@@ -1,9 +1,7 @@
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/font-awesome.min.css"> 
 <?php
+include_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'includes.html';
 // forget password code
-include_once '../../classes/validator.php';
-include_once '../../classes/Student.php';
+include_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'initialize.inc.php';
 $stu = new Student();
 $fun = new validator();
 session_start();

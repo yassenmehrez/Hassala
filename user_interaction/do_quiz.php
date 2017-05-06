@@ -178,7 +178,7 @@ if (true) {
                         <!------NEXT & PREVIOUS Buttons --->
                         <button disabled="disabled" type="button" class="previous btn btn-primary" onclick="get_previous_question()">Previous</button> 
                         <?php
-                        if ($total_number_of_questions == 1) {
+                        if ($total_number_of_questions == 1 || $total_number_of_questions == 0) {
 
                             echo '<button disabled="disabled" type="button" class="next btn btn-primary" onclick="get_next_question()">Next</button>';
                         } else {

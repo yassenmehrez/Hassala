@@ -11,6 +11,9 @@
  *
  * @author root
  */
+include_once dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR .'adminQuery.php';
+include_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'user_interaction' . DIRECTORY_SEPARATOR . 'API' . DIRECTORY_SEPARATOR . 'PHPMailer' . DIRECTORY_SEPARATOR . 'PHPMailerAutoload.php';
+include_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'user_interaction' . DIRECTORY_SEPARATOR . 'API' . DIRECTORY_SEPARATOR . 'phpqrcode-master' . DIRECTORY_SEPARATOR . 'qrlib.php';
 include_once 'Person.php';
 
 class Admin extends Person {
@@ -75,10 +78,10 @@ class Admin extends Person {
     }
 
     public function generate_qr($variable, $email, $name) {
-        $PNG_TEMP_DIR = '../UI/Qrcodes/';
+        $PNG_TEMP_DIR = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'user_interaction' . DIRECTORY_SEPARATOR . 'Qrcodes/';
         //echo $PNG_TEMP_DIR;
         $this->name = $variable;
-        $PNG_WEB_DIR = '../UI/Qrcodes/';
+        $PNG_WEB_DIR = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'user_interaction' . DIRECTORY_SEPARATOR . 'Qrcodes/';
         if (!file_exists($PNG_TEMP_DIR))
             mkdir($PNG_TEMP_DIR);
         $filename = $PNG_TEMP_DIR . 'test.png';
@@ -111,7 +114,7 @@ class Admin extends Person {
         $mail->addCC('cc@example.com');
         $mail->addBCC('bcc@example.com');
 
-        $mail->addAttachment('Qrcodes/' . $this->name . '.png', 'QRCode.png');    // Optional name
+        $mail->addAttachment(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'user_interaction' . DIRECTORY_SEPARATOR . 'Qrcodes/' . $this->name . '.png', 'QRCode.png');    // Optional name
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = 'Welcome, ' . $name;
@@ -160,10 +163,9 @@ class Admin extends Person {
     }
 
     public function GenerateStatistics() {
-        $statistics_query = 'SELECT `university`,COUNT(`university`) as university_count FROM Student GROUP BY `university`';
-        $qresult = $this->database->database_query($statistics_query);
+        $qresult = $this->admin_qeury->genrate_stat();
         $result = array();
-        while ($res = $qresult->fetch_assoc()) {
+        while ($res = mysql_fetch_assoc($qresult)) {
             $result[] = $res;
         }
         $pie_chart_data = array();
@@ -172,7 +174,6 @@ class Admin extends Person {
             $pie_chart_data[] = array($single_result['university'], (int) $single_result['university_count']);
         }
         $pie_chart_data = json_encode($pie_chart_data);
-        mysqli_free_result($qresult);
         return $pie_chart_data;
     }
 
