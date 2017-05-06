@@ -3,13 +3,13 @@ session_start();
 if (isset($_SESSION['Admin'])) {
     header('Location: Adminpage.php');
 }
+include_once 'includes.html';
 include_once realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'initialize.inc.php');
-include_once 'includes'.DIRECTORY_SEPARATOR.'header.inc.php';
 $admin = new Admin();
 $query = new Admin_Queries();
-$pageTitle = 'Admin Login';
 if (isset($_POST['login'])) {
     $var = True;
+    $username = $_POST['username'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $admin->set_adminName($username);
@@ -38,17 +38,20 @@ if (isset($_POST['login'])) {
 ?>
 <!DOCTYPE html>
 <html>
-    <title>Admni Login</title>
-    <form class="login" action="admin.php" method="POST">
+    <title>Admin Login</title>
+    <head>
+        <link rel="stylesheet" href="<?php echo $css ?>fonts/font-awesome.min.css" />
+        <link rel="stylesheet" href="<?php echo $css ?>mina_css/login.css" />
+        <link rel="stylesheet" href="<?php echo $css ?>mina_css/AddStudent.css" />  
+    </head>
+    <form class="login" action="" method="POST">
         <h2> Admin Login </h2>
         <input class="form-control" type="text" name="username" placeholder="userName..." />
         <input class="form-control" type="password" name="password" placeholder="password..." />
         <input class="btn btn-primary btn-block" type="submit" value="login" name="login"/>
     </form>
 </html>
-
-<?php include 'includes/footer.inc.php'; ?>
-
+<script src='<?php echo $js?>mina_js/backend.js'></script>
 <style>
 
     .login{

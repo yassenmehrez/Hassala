@@ -28,7 +28,7 @@ class Admin extends Person {
     public function __construct() {
         $this->database = new DataBase();
         $this->admin_qeury = new Admin_Queries();
-        $this->DataBase_Class = new DataBase_Class();
+        $this->DataBase_Class = new DataBase();
     }
 
     public function set_adminName($name) {
@@ -49,6 +49,7 @@ class Admin extends Person {
 
     public function login() {
         $data = $this->get_username_password($this->userName, $this->password);
+        print_r($data);
         if ($data['user_name'] == $this->userName && $data['password'] == $this->password && $data['type'] == 2) {
             $_SESSION['Admin'] = $this->userName; //start session when login
             return True;

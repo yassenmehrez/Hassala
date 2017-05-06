@@ -5,7 +5,7 @@ class Admin_Queries {
 private $db; // object from DB class
 
 public function __construct(){
- $this->db = new DataBase_Class();
+ $this->db = new DataBase();
 }
 
 	 public function Add_new_Student($Student){

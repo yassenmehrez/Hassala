@@ -5,7 +5,7 @@ class studentQueries{
 
 	public function __construct(){
 
-		$this->db = new DataBase_Class();
+		$this->db = new DataBase();
 	}
 
     public function reset_pass($username, $password, $id){

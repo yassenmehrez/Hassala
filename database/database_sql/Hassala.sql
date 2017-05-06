@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2017 at 12:18 PM
--- Server version: 5.7.17
+-- Generation Time: May 06, 2017 at 11:49 AM
+-- Server version: 5.7.18
 -- PHP Version: 7.0.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -64,7 +64,8 @@ CREATE TABLE `Course` (
 
 INSERT INTO `Course` (`course_id`, `course_name`, `course_description`, `instructor_id`) VALUES
 (1, 'Programming', 'This course is a way to teach new programming skills to beginners.', 1),
-(2, 'Programming Language 3', 'In this course we\'re going to use Haskell as main language for programming, Haskell is a functional programming.', 1);
+(2, 'Programming Language 3', 'In this course we\'re going to use Haskell as main language for programming, Haskell is a functional programming.', 1),
+(3, 'Logic Design', 'In this course you\'ll be implementing hardware base components of computer architecture ', 1);
 
 -- --------------------------------------------------------
 
@@ -189,11 +190,11 @@ CREATE TABLE `Question` (
 --
 
 INSERT INTO `Question` (`question_header`, `question_model_answer`, `question_id`, `quiz_id`, `question_grade`) VALUES
-('What does HTML stands for?', 'Hypertext Markup Language ', 1, 1, 1.5),
-('What does CSS stands for?', 'Cascading Style Sheet', 2, 1, 3.5),
-('What is the acronym for DHCP?', 'Dynamic Host Configuration Protocol', 3, 1, 2.5),
-('What is the meaning of functional programming?', 'Functional Programming', 4, 2, 5),
-('What is ZipWith() function?', 'function', 5, 2, 4.5);
+('What does HTML stands for?', 'HTML HTML HTML', 1, 1, 4.5),
+('What does CSS stands for?', 'CSS CSS CSS', 2, 1, 3.25),
+('What is ZipWith function()?', 'Msh faker', 3, 1, 1.25),
+('What does PHP stands for?', 'Preprocessing language ', 4, 1, 4.5),
+('What is memset function()?', 'to reserve memory', 5, 1, 4.5);
 
 -- --------------------------------------------------------
 
@@ -214,21 +215,20 @@ CREATE TABLE `question_answers` (
 
 INSERT INTO `question_answers` (`answer_id`, `question_id`, `answer`, `chosen_count`) VALUES
 (1, 1, 'HTML HTML HTML', 0),
-(2, 1, 'CSS CSS CSS', 0),
-(3, 2, 'Yassen Ghaby', 0),
-(4, 2, 'Eyad Aghba', 0),
-(5, 3, 'Dynamic Host Configuration Protocol', 0),
-(6, 3, 'DCHP DCHP 1', 0),
-(7, 3, 'DHCP DHCP 2', 0),
-(8, 3, 'DCHP DCHP 3', 0),
-(9, 3, 'DHCP DHCP 4', 0),
-(10, 4, 'Answer 1', 0),
-(11, 4, 'Answer 2', 0),
-(12, 4, 'Answer 3', 0),
-(13, 4, 'Answer 4', 0),
-(14, 4, 'Answer 5', 0),
-(15, 5, 'ZipWith() 1', 0),
-(16, 5, 'ZipWith() 2', 0);
+(2, 1, 'Answer 1', 0),
+(3, 1, 'Answer 2', 0),
+(4, 2, 'CSS CSS CSS', 0),
+(5, 2, 'Answer 1', 0),
+(6, 2, 'Answer 2', 0),
+(7, 2, 'Answer 3', 0),
+(8, 3, 'Msh faker', 0),
+(9, 3, 'Answer 1', 0),
+(10, 3, 'Answer 2', 0),
+(11, 4, '1 <= N <= 200', 0),
+(12, 4, '1 <= N <= 200', 0),
+(13, 5, '1 <= N <= 2001 <= N <= 200', 0),
+(14, 5, '1 <= N <= 2001 <= N <= 200^^$@', 0),
+(15, 4, 'Answer 3', 0);
 
 -- --------------------------------------------------------
 
@@ -254,7 +254,8 @@ CREATE TABLE `Quiz` (
 
 INSERT INTO `Quiz` (`quiz_id`, `instructor_id`, `course_id`, `title`, `quiz_date`, `quiz_time`, `quiz_duration`, `description`, `quiz_full_mark`) VALUES
 (1, 1, 1, 'Quiz - 1', '2017-04-29', '08:30:00', '00:20:00', 'This is your first quiz, please try to achieve your best in order to have a high GPA.', 40),
-(2, 1, 2, 'Quiz - 2', '2017-04-29', '08:30:00', '00:30:00', 'This is your first quiz in Haskell programming language, do your best.', 20);
+(2, 1, 2, 'Quiz - 2', '2017-04-29', '08:30:00', '00:30:00', 'This is your first quiz in Haskell programming language, do your best.', 20),
+(3, 1, 3, 'Quiz - 3', '2017-04-29', '08:30:00', '00:20:00', 'Please take care of components and how they\'re connected and how you\'re going to answer the question', 15);
 
 -- --------------------------------------------------------
 
@@ -287,9 +288,8 @@ CREATE TABLE `quiz_problem` (
 --
 
 INSERT INTO `quiz_problem` (`problem_id`, `description`, `inputformat`, `outputformat`, `quiz_id`, `problem_grade`) VALUES
-(1, 'Very hard programming problem', '1 <= N <= 100', 'Print the answer followed by endline', 1, 5),
-(2, 'Very easy programming problem', '1 <= N <= 200', 'Don\'t print endline at the end of the answer', 1, 3),
-(3, 'This problem is one of the most hardest programming quiz.', '1 <= M <= 1000', 'Print \"YES\" if true\r\nPrint \"NO\" if false', 1, 7.5);
+(1, 'This is one of the most hardest programming problems', '1 <= N <= 200', '1 <= K <= 400', 1, 5),
+(2, 'Easiest programming problem you\'ll ever meet', '1 <= N <= 200', '1 <= N <= 200', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -308,7 +308,8 @@ CREATE TABLE `role_pages` (
 
 INSERT INTO `role_pages` (`page_link`, `role_type`) VALUES
 ('rgjkdnffj', 0),
-('jkfkjdfk', 1);
+('jkfkjdfk', 1),
+('https://www.facebook.com', 2);
 
 -- --------------------------------------------------------
 
@@ -428,10 +429,10 @@ CREATE TABLE `TestCase` (
 --
 
 INSERT INTO `TestCase` (`input`, `output`, `test_case_id`, `problem_id`) VALUES
-('1\r\n2\r\n3\r\n4\r\n5\r\n6', '1\r\n2\r\n3\r\n4\r\n5\r\n6', 1, 1),
-('1\r\n2\r\n3\r\n4\r\n5\r\n6', '1\r\n2\r\n3\r\n4\r\n5\r\n6', 2, 1),
-('1\r\n2\r\n3\r\n4\r\n5\r\n6', '1\r\n2\r\n3\r\n4\r\n5\r\n6', 3, 2),
-('1\r\n2\r\n3\r\n4\r\n5\r\n6', '1\r\n2\r\n3\r\n4\r\n5\r\n6', 4, 2);
+('$\r\n%\r\n#\r\n@\r\n$\r\n^', '1\r\n2\r\n3\r\n4\r\n8', 1, 1),
+('HAIYUDYX', '#FWCWX@@#', 2, 1),
+('HelloWORLD', 'HELLOwORLD', 3, 2),
+('%\r\n$\r\n@\r\n%&*', 'M\r\nDJD\r\nW\r\nSA\r\nA', 4, 2);
 
 -- --------------------------------------------------------
 
@@ -443,7 +444,7 @@ CREATE TABLE `Users` (
   `instructor_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `user_name` varchar(50) DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL,
+  `password` varchar(80) DEFAULT NULL,
   `type` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -455,7 +456,9 @@ INSERT INTO `Users` (`instructor_id`, `student_id`, `user_name`, `password`, `ty
 (NULL, NULL, NULL, NULL, 0),
 (NULL, NULL, NULL, NULL, 1),
 (1, NULL, 'nmzbcxz', 'nxcmxnzbc', 0),
-(NULL, 1, 'yassenmehrez', 'hddhhhd', 1);
+(NULL, 1, 'yassenmehrez', 'hddhhhd', 1),
+(NULL, NULL, 'admin', '8cb2237d0679ca88db6464eac60da96345513964', 2),
+(NULL, NULL, 'admin2', 'd033e22ae348aeb5660fc2140aec35850c4da997', 2);
 
 --
 -- Indexes for dumped tables
@@ -643,27 +646,47 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Course`
 --
 ALTER TABLE `Course`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `Instructor`
 --
 ALTER TABLE `Instructor`
   MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `Matrial`
+--
+ALTER TABLE `Matrial`
+  MODIFY `matrial_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `Question`
+--
+ALTER TABLE `Question`
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `question_answers`
 --
 ALTER TABLE `question_answers`
-  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `Quiz`
 --
 ALTER TABLE `Quiz`
-  MODIFY `quiz_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `quiz_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `quiz_problem`
+--
+ALTER TABLE `quiz_problem`
+  MODIFY `problem_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `Student`
 --
 ALTER TABLE `Student`
   MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `TestCase`
+--
+ALTER TABLE `TestCase`
+  MODIFY `test_case_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
@@ -762,8 +785,8 @@ ALTER TABLE `solve_quiz`
 -- Constraints for table `solve_quiz_problem`
 --
 ALTER TABLE `solve_quiz_problem`
-  ADD CONSTRAINT `solve_quiz_problem_ibfk_2` FOREIGN KEY (`prob_id`) REFERENCES `problem` (`id`),
-  ADD CONSTRAINT `solve_quiz_problem_ibfk_3` FOREIGN KEY (`std_id`) REFERENCES `Student` (`student_id`);
+  ADD CONSTRAINT `solve_quiz_problem_ibfk_3` FOREIGN KEY (`std_id`) REFERENCES `Student` (`student_id`),
+  ADD CONSTRAINT `solve_quiz_problem_ibfk_4` FOREIGN KEY (`prob_id`) REFERENCES `quiz_problem` (`problem_id`);
 
 --
 -- Constraints for table `student_course`
@@ -776,8 +799,8 @@ ALTER TABLE `student_course`
 -- Constraints for table `student_question`
 --
 ALTER TABLE `student_question`
-  ADD CONSTRAINT `student_question_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `Question` (`question_id`),
-  ADD CONSTRAINT `student_question_ibfk_2` FOREIGN KEY (`std_id`) REFERENCES `Student` (`student_id`);
+  ADD CONSTRAINT `student_question_ibfk_2` FOREIGN KEY (`std_id`) REFERENCES `Student` (`student_id`),
+  ADD CONSTRAINT `student_question_ibfk_3` FOREIGN KEY (`question_id`) REFERENCES `Question` (`question_id`);
 
 --
 -- Constraints for table `TestCase`
